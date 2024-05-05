@@ -3,6 +3,7 @@ package cn.dancingsnow.bigger_ae2.item.cell;
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
+import appeng.api.stacks.AEKeyType;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.cells.CellState;
 import appeng.api.storage.cells.ISaveProvider;
@@ -20,6 +21,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
     private final ItemStack stack;
     private final ISaveProvider container;
+    private final AEKeyType KTFilter;
 
     @Getter
     private AEKey storedItem;
@@ -36,8 +38,11 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
         DigitalSingularityCellItem cell = (DigitalSingularityCellItem) stack.getItem();
 
+        this.KTFilter=cell.getKeyType();
+
         storedItem = getTag().contains(KEY) ? AEKey.fromTagGeneric(getTag().getCompound(KEY)) : null;
         filterItem = cell.getConfigInventory(stack).getKey(0);
+
 
         count = !getTag().getString(COUNT).isEmpty()
             ? new BigInteger(getTag().getString(COUNT))
@@ -92,6 +97,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
         if (storedItem != null && !what.equals(storedItem)) {
             return 0;
         }
+        if(KTFilter!=null && !KTFilter.contains(what)) {return 0;}
 
         BigInteger insertAmount = BigInteger.valueOf(amount);
         if (mode == Actionable.MODULATE) {

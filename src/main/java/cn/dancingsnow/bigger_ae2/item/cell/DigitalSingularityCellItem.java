@@ -4,6 +4,7 @@ import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AEKeyType;
 import appeng.api.stacks.GenericStack;
+import appeng.api.storage.AEKeyFilter;
 import appeng.api.storage.StorageCells;
 import appeng.api.storage.cells.ICellHandler;
 import appeng.api.storage.cells.ICellWorkbenchItem;
@@ -48,12 +49,12 @@ public class DigitalSingularityCellItem extends AEBaseItem implements ICellWorkb
 
     public DigitalSingularityCellItem(
         Properties properties,
-        AEKeyType keyType,
+        @Nullable AEKeyType keyType,
         ItemLike coreItem,
         ItemLike housingItem
     ) {
         super(properties.stacksTo(1));
-        this.keyType = keyType;
+        this.keyType=keyType;
         this.coreItem = coreItem;
         this.housingItem = housingItem;
     }
@@ -61,7 +62,11 @@ public class DigitalSingularityCellItem extends AEBaseItem implements ICellWorkb
 
     @Override
     public ConfigInventory getConfigInventory(ItemStack is) {
-        return CellConfig.create(keyType.filter(), is, 1);
+        AEKeyFilter filter;
+        if(keyType==null)
+            filter=null;
+        else filter=keyType.filter();
+        return CellConfig.create(filter, is, 1);
     }
 
     @Override
