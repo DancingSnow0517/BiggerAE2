@@ -1,4 +1,7 @@
 {
+    "item.bigger_ae2.advanced_fluid_cell_housing": "进阶物品元件外壳",
+    "item.bigger_ae2.advanced_item_cell_housing": "进阶流体元件外壳",
+    "item.bigger_ae2.digital_singularity_cell_component": "数字奇点存储组件",
     "item.bigger_ae2.digital_singularity_fluid_storage_cell": "数字奇点流体存储元件",
     "item.bigger_ae2.digital_singularity_item_storage_cell": "数字奇点物品存储元件",
     "item.bigger_ae2.quantum_cell_component": "量子存储组件",
