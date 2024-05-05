@@ -25,7 +25,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
     private AEKey storedItem;
     @Getter
     private final AEKey filterItem;
-
+    @Getter
     private BigInteger count;
 
     private boolean isPersisted = true;
@@ -46,13 +46,13 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
     @Override
     public CellState getStatus() {
+        if (filterItem != null) {
+            return CellState.TYPES_FULL;
+        }
         if (storedItem == null || count.signum() < 1) {
             return CellState.EMPTY;
         }
-        if (storedItem.equals(filterItem)) {
-            return CellState.FULL;
-        }
-        return CellState.NOT_EMPTY;
+        return CellState.TYPES_FULL;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
         if (amount == 0) {
             return 0;
         }
-        if (filterItem != null && storedItem != null && !filterItem.equals(storedItem)) {
+        if (filterItem != null && !filterItem.equals(what)) {
             return 0;
         }
         if (storedItem != null && !what.equals(storedItem)) {
@@ -95,6 +95,9 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
         BigInteger insertAmount = BigInteger.valueOf(amount);
         if (mode == Actionable.MODULATE) {
+            if (storedItem == null) {
+                storedItem = what;
+            }
             count = count.add(insertAmount);
             saveChanges();
         }
@@ -106,7 +109,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
         if (count.signum() < 1) {
             return 0;
         }
-        if (filterItem != null && storedItem != null && !filterItem.equals(storedItem)) {
+        if (storedItem == null) {
             return 0;
         }
         if (!what.equals(storedItem)) {
@@ -135,9 +138,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
     @Override
     public void getAvailableStacks(KeyCounter out) {
         if (storedItem != null) {
-            if (storedItem.equals(filterItem)) {
-                out.add(storedItem, clampedLong(count, Long.MAX_VALUE));
-            }
+            out.add(storedItem, clampedLong(count, Long.MAX_VALUE));
         }
     }
 

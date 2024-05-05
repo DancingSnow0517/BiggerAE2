@@ -5,11 +5,8 @@
   "item.bigger_ae2.quantum_fluid_storage_cell": "Quantum Fluid Storage Cell",
   "item.bigger_ae2.quantum_item_storage_cell": "Quantum Item Storage Cell",
   "itemGroup.bigger_ae2.bigger_ae2": "Bigger Ae2",
-  "tooltip.bigger_ae2.a_lot": "A lot.",
   "tooltip.bigger_ae2.contains": "Contains: %s",
   "tooltip.bigger_ae2.empty": "Empty",
-  "tooltip.bigger_ae2.mismatch": "Mismatched filter!",
-  "tooltip.bigger_ae2.not_partitioned": "Not partitioned",
   "tooltip.bigger_ae2.partitioned": "Partitioned for: %s",
   "tooltip.bigger_ae2.quantity": "Quantity: %s"
 }

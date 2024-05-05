@@ -16,7 +16,6 @@ import appeng.items.contents.CellConfig;
 import appeng.items.storage.StorageCellTooltipComponent;
 import appeng.util.ConfigInventory;
 import lombok.Getter;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +24,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -71,8 +71,9 @@ public class DigitalSingularityCellItem extends AEBaseItem implements ICellWorkb
                 lines.add(Component.translatable("tooltip.bigger_ae2.contains", storedItem.getDisplayName()));
                 long quantity = inv.getStoredQuantity();
                 lines.add(Component.translatable(
-                    "tooltip.bigger_ae2.quantity",
-                    quantity < Long.MAX_VALUE ? Tooltips.ofNumber(quantity) : Component.translatable("tooltip.bigger_ae2.a_lot")
+                    "tooltip.bigger_ae2.quantity", quantity < Long.MAX_VALUE
+                        ? Tooltips.ofNumber(quantity)
+                        : Component.literal(NumberFormat.getInstance().format(inv.getCount())).withStyle(Tooltips.NUMBER_TEXT)
                 ));
             } else {
                 lines.add(Component.translatable("tooltip.bigger_ae2.empty"));
@@ -80,15 +81,7 @@ public class DigitalSingularityCellItem extends AEBaseItem implements ICellWorkb
             if (filterItem != null) {
                 if (storedItem == null) {
                     lines.add(Component.translatable("tooltip.bigger_ae2.partitioned", filterItem.getDisplayName()));
-                } else if (!storedItem.equals(filterItem)) {
-                    lines.add(Component.translatable("tooltip.bigger_ae2.mismatch").withStyle(ChatFormatting.DARK_RED));
                 }
-            } else {
-                lines.add(
-                    storedItem != null
-                        ? Component.translatable("tooltip.bigger_ae2.mismatch").withStyle(ChatFormatting.DARK_RED)
-                        : Component.translatable("tooltip.bigger_ae2.not_partitioned")
-                );
             }
         }
     }
