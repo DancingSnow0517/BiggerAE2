@@ -36,7 +36,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
         DigitalSingularityCellItem cell = (DigitalSingularityCellItem) stack.getItem();
 
-        storedItem = getTag().contains(KEY) ? cell.getKeyType().loadKeyFromTag(getTag().getCompound(KEY)) : null;
+        storedItem = getTag().contains(KEY) ? AEKey.fromTagGeneric(getTag().getCompound(KEY)) : null;
         filterItem = cell.getConfigInventory(stack).getKey(0);
 
         count = !getTag().getString(COUNT).isEmpty()
