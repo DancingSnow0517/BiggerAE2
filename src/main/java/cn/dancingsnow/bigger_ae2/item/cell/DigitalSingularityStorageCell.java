@@ -21,8 +21,8 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
     private final ItemStack stack;
     private final ISaveProvider container;
-    private final AEKeyType KTFilter;
 
+    private final AEKeyType type;
     @Getter
     private AEKey storedItem;
     @Getter
@@ -38,11 +38,9 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
         DigitalSingularityCellItem cell = (DigitalSingularityCellItem) stack.getItem();
 
-        this.KTFilter=cell.getKeyType();
-
-        storedItem = getTag().contains(KEY) ? AEKey.fromTagGeneric(getTag().getCompound(KEY)) : null;
+        storedItem = getTag().contains(KEY) ? cell.getKeyType().loadKeyFromTag(getTag().getCompound(KEY)) : null;
         filterItem = cell.getConfigInventory(stack).getKey(0);
-
+        type = cell.getKeyType();
 
         count = !getTag().getString(COUNT).isEmpty()
             ? new BigInteger(getTag().getString(COUNT))
@@ -97,7 +95,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
         if (storedItem != null && !what.equals(storedItem)) {
             return 0;
         }
-        if(KTFilter!=null && !KTFilter.contains(what)) {return 0;}
+        if(type!=null && !type.contains(what)) {return 0;}
 
         BigInteger insertAmount = BigInteger.valueOf(amount);
         if (mode == Actionable.MODULATE) {
