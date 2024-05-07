@@ -20,7 +20,7 @@ public class ModBlockEntities {
         .onRegister(type -> {
             for (ModCraftingUnitType craftingUnitType : ModCraftingUnitType.values()) {
                 AEBaseBlockEntity.registerBlockEntityItem(type, craftingUnitType.getItemFromType());
-                craftingUnitType.getBlockFromType().setBlockEntity(CraftingBlockEntity.class, type, null, null);
+                craftingUnitType.getBlockFromType().get().setBlockEntity(CraftingBlockEntity.class, type, null, null);
             }
         })
         .register();
