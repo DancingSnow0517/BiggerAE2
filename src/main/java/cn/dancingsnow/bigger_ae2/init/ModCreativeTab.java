@@ -21,6 +21,10 @@ public class ModCreativeTab {
                 output.accept(ModItems.SINGULARITY_CELL_COMPONENT);
                 output.accept(ModItems.SINGULARITY_ITEM_CELL);
                 output.accept(ModItems.SINGULARITY_FLUID_CELL);
+                output.accept(ModBlocks.ACCELERATOR_4);
+                output.accept(ModBlocks.ACCELERATOR_16);
+                output.accept(ModBlocks.ACCELERATOR_64);
+                output.accept(ModBlocks.ACCELERATOR_256);
             })
             .build()
         )
