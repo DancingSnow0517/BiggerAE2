@@ -14,11 +14,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ModelBakery.class)
 public abstract class ModelBakeryMixin {
-    @Shadow protected abstract void cacheAndQueueDependencies(ResourceLocation location, UnbakedModel model);
+    @Shadow
+    protected abstract void cacheAndQueueDependencies(ResourceLocation location, UnbakedModel model);
 
     @Inject(method = "loadModel", at = @At("HEAD"), cancellable = true)
     private void loadModelHook(ResourceLocation id, CallbackInfo ci) {
         UnbakedModel model = bigger_ae2$getUnbakedModel(id);
+
         if (model != null) {
             cacheAndQueueDependencies(id, model);
             ci.cancel();

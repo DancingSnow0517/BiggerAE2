@@ -69,15 +69,13 @@ public class BiggerAE2Mod {
     }
 
     private static void initCraftingUnitModels(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            for (ModCraftingUnitType type : ModCraftingUnitType.values()) {
-                BuiltInModelHooks.addBuiltInModel(
-                    BiggerAE2Mod.of("block/crafting/" + type.getAffix() + "_formed"),
-                    new CraftingCubeModel(new ModCraftingUnitModelProvider(type))
-                );
+        for (ModCraftingUnitType type : ModCraftingUnitType.values()) {
+            BuiltInModelHooks.addBuiltInModel(
+                BiggerAE2Mod.of("block/crafting/" + type.getAffix() + "_formed"),
+                new CraftingCubeModel(new ModCraftingUnitModelProvider(type))
+            );
 
-                ItemBlockRenderTypes.setRenderLayer(type.getBlockFromType(), RenderType.cutout());
-            }
-        });
+            ItemBlockRenderTypes.setRenderLayer(type.getBlockFromType(), RenderType.cutout());
+        }
     }
 }
