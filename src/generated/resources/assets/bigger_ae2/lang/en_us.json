@@ -1,4 +1,9 @@
 {
+  "block.bigger_ae2.1024_core_crafting_accelerator": "1024 Core Crafting Accelerator",
+  "block.bigger_ae2.16_core_crafting_accelerator": "16 Core Crafting Accelerator",
+  "block.bigger_ae2.256_core_crafting_accelerator": "256 Core Crafting Accelerator",
+  "block.bigger_ae2.4_core_crafting_accelerator": "4 Core Crafting Accelerator",
+  "block.bigger_ae2.64_core_crafting_accelerator": "64 Core Crafting Accelerator",
   "item.bigger_ae2.advanced_fluid_cell_housing": "Advanced Fluid Cell Housing",
   "item.bigger_ae2.advanced_item_cell_housing": "Advanced Item Cell Housing",
   "item.bigger_ae2.digital_singularity_cell_component": "Digital Singularity Cell Component",

@@ -1,4 +1,9 @@
 {
+    "block.bigger_ae2.1024_core_crafting_accelerator": "1024核并行处理单元",
+    "block.bigger_ae2.16_core_crafting_accelerator": "16核并行处理单元",
+    "block.bigger_ae2.256_core_crafting_accelerator": "256核并行处理单元",
+    "block.bigger_ae2.4_core_crafting_accelerator": "4核并行处理单元",
+    "block.bigger_ae2.64_core_crafting_accelerator": "64核并行处理单元",
     "item.bigger_ae2.advanced_fluid_cell_housing": "进阶物品元件外壳",
     "item.bigger_ae2.advanced_item_cell_housing": "进阶流体元件外壳",
     "item.bigger_ae2.digital_singularity_cell_component": "数字奇点存储组件",
