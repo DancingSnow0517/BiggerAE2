@@ -107,6 +107,9 @@ public class DigitalSingularityStorageCell implements StorageCell {
             count = count.add(insertAmount);
             saveChanges();
         }
+        if (amount >= Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        }
         return amount;
     }
 
