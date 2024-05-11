@@ -33,6 +33,8 @@ dependencyResolutionManagement {
         def flywheelForgeVersion = "0.6.9-5"
         def topForgeVersion = "1.20.1-10.0.1-3"
         def jadeForgeVersion = "11.7.1"
+        def glodiumForgeVersion = "5006780"
+        def appliedFluxForgeVersion = "5329825"
 
         // Libs
         def quiltMappingsVersion = "5"  // https://lambdaurora.dev/tools/import_quilt.html
@@ -102,6 +104,12 @@ dependencyResolutionManagement {
 
             def gtm = version("gtm", gtmVersion)
             library("gtm", "com.gregtechceu.gtceu", "gtceu-${minecraftVersion}").versionRef(gtm)
+
+            def glodium = version("glodium", glodiumForgeVersion)
+            library("glodium", "curse.maven", "glodium-957920").versionRef(glodium)
+
+            def appliedFlux = version("appliedFlux", appliedFluxForgeVersion)
+            library("appliedFlux", "curse.maven", "applied-flux-965012").versionRef(appliedFlux)
         }
 
         libs {

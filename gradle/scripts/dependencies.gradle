@@ -77,4 +77,10 @@ dependencies {
 
     // GTM
     modImplementation(forge.gtm) { transitive = false }
+
+    // Glodium
+    modCompileOnly(forge.glodium)
+
+    // Applied Flux
+    modCompileOnly(forge.appliedFlux)
 }
