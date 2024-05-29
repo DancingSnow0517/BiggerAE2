@@ -12,12 +12,12 @@ import appeng.api.upgrades.IUpgradeInventory;
 import appeng.api.upgrades.UpgradeInventories;
 import appeng.core.AEConfig;
 import appeng.core.localization.PlayerMessages;
-import appeng.core.localization.Tooltips;
 import appeng.items.AEBaseItem;
 import appeng.items.contents.CellConfig;
 import appeng.items.storage.StorageCellTooltipComponent;
 import appeng.util.ConfigInventory;
 import appeng.util.InteractionUtil;
+import cn.dancingsnow.bigger_ae2.util.NumberUtil;
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -33,7 +33,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -88,11 +87,9 @@ public class DigitalSingularityCellItem extends AEBaseItem implements ICellWorkb
 
             if (storedItem != null) {
                 lines.add(Component.translatable("tooltip.bigger_ae2.contains", storedItem.getDisplayName()));
-                long quantity = inv.getStoredQuantity();
                 lines.add(Component.translatable(
-                    "tooltip.bigger_ae2.quantity", quantity < Long.MAX_VALUE
-                        ? Tooltips.ofNumber(quantity)
-                        : Component.literal(NumberFormat.getInstance().format(inv.getCount())).withStyle(Tooltips.NUMBER_TEXT)
+                    "tooltip.bigger_ae2.quantity",
+                    NumberUtil.numberText(inv.getCount())
                 ));
             } else {
                 lines.add(Component.translatable("tooltip.bigger_ae2.empty"));

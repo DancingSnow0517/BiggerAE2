@@ -24,7 +24,7 @@ dependencyResolutionManagement {
         def ae2Version = "15.0.18"
         def kjsVersion = "2001.6.4-build.120"
         def auVersion = "1.20.1-0.6.0"
-        def gtmVersion = "1.2.0"
+        def gtmVersion = "1.2.3.a"
 
         // Forge
         def forgeVersion = "47.2.0"
