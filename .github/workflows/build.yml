@@ -8,10 +8,14 @@ on:
       - build.gradle
       - gradle.properties
       - settings.gradle
+    branches:
+      - master
+      - "1.21"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: write-all
     env:
       GITHUB_ACTION_NUMBER: ${{ vars.GITHUB_RUN_NUMBER }}
     steps:
@@ -21,11 +25,11 @@ jobs:
       - name: validate gradle wrapper
         uses: gradle/actions/wrapper-validation@v3
 
-      - name: Setup Java 17
+      - name: Setup Java 21
         uses: actions/setup-java@v4.2.1
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 21
 
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
@@ -36,6 +40,14 @@ jobs:
 
       - name: Build
         run: ./gradlew build
+
+      #- name: Publish to maven
+      #  run: ./gradlew publish
+      #  env:
+      #    MAVEN_URL: ${{ secrets.MAVEN_URL }}
+      #    MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+      #    MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+      #  continue-on-error: true
 
       - name: Read Properties
         id: 'properties'
@@ -55,3 +67,17 @@ jobs:
         with:
           name: "${{ steps.properties.outputs.mod_name }} ${{ steps.var.outputs.version }}"
           path: build/libs/${{ steps.properties.outputs.mod_id }}-${{ steps.var.outputs.version }}.jar
+
+      - uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          name: "${{ steps.properties.outputs.mod_name }}-${{ steps.var.outputs.version }}"
+
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-tag: "${{ steps.var.outputs.version }}"
+          github-generate-changelog: true
+          github-prerelease: true
+
+          files: build/libs/${{ steps.properties.outputs.mod_id }}-${{ steps.var.outputs.version }}.jar
+
+  # gametest:
+  #   uses: ./.github/workflows/gametest.yml

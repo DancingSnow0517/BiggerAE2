@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bigger_ae2:4_core_crafting_accelerator"
+    },
+    {
+      "item": "bigger_ae2:4_core_crafting_accelerator"
+    },
+    {
+      "item": "bigger_ae2:4_core_crafting_accelerator"
+    },
+    {
+      "item": "bigger_ae2:4_core_crafting_accelerator"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "bigger_ae2:16_core_crafting_accelerator"
+  }
+}

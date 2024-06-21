@@ -8,11 +8,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(CraftingCPUCluster.class)
 public class CraftingCPUClusterMixin {
 
-    @ModifyConstant(
-        method = "addBlockEntity",
-        remap = false,
-        constant = @Constant(intValue = 16)
-    )
+    @ModifyConstant(method = "addBlockEntity", remap = false, constant = @Constant(intValue = 16))
     private int modifyLimit(int constant) {
         return 1024;
     }
