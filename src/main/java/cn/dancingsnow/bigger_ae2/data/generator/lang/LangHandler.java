@@ -8,5 +8,6 @@ public class LangHandler {
         provider.add("tooltip.bigger_ae2.quantity", "Quantity: %s");
         provider.add("tooltip.bigger_ae2.empty", "Empty");
         provider.add("tooltip.bigger_ae2.partitioned", "Partitioned for: %s");
+        provider.add("bigger_ae2.old_pack", "Bigger AE2 Old Textures");
     }
 }

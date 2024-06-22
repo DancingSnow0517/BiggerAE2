@@ -1,35 +1,33 @@
 package cn.dancingsnow.bigger_ae2.client;
 
-import appeng.client.render.crafting.CraftingCubeModel;
-import appeng.hooks.BuiltInModelHooks;
-import cn.dancingsnow.bigger_ae2.BiggerAE2Base;
 import cn.dancingsnow.bigger_ae2.BiggerAE2Mod;
 import cn.dancingsnow.bigger_ae2.block.ModCraftingUnitType;
 import cn.dancingsnow.bigger_ae2.init.ModBlocks;
+
+import appeng.client.render.crafting.CraftingCubeModel;
+import appeng.hooks.BuiltInModelHooks;
+
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
-@OnlyIn(Dist.CLIENT)
-public class BiggerAE2Client extends BiggerAE2Base {
-    public BiggerAE2Client() {
+@Mod(value = BiggerAE2Mod.MOD_ID, dist = Dist.CLIENT)
+public class BiggerAE2Client {
+    public BiggerAE2Client(IEventBus modEventBus) {
         super();
-        initCraftingUnitModels();
+        initCraftingUnitModels(modEventBus);
     }
 
-    private static void initCraftingUnitModels() {
+    private static void initCraftingUnitModels(IEventBus modEventBus) {
         for (ModCraftingUnitType type : ModCraftingUnitType.values()) {
             BuiltInModelHooks.addBuiltInModel(
-                BiggerAE2Mod.of("block/crafting/" + type.getAffix() + "_formed"),
-                new CraftingCubeModel(new ModCraftingUnitModelProvider(type))
-            );
+                    BiggerAE2Mod.of("block/crafting/" + type.getAffix() + "_formed"),
+                    new CraftingCubeModel(new ModCraftingUnitModelProvider(type)));
         }
 
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(BiggerAE2Client::setRenderLayer);
     }
 

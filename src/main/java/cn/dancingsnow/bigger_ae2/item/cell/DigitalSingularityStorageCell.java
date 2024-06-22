@@ -1,5 +1,7 @@
 package cn.dancingsnow.bigger_ae2.item.cell;
 
+import cn.dancingsnow.bigger_ae2.init.ModComponents;
+
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
@@ -8,25 +10,26 @@ import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.cells.CellState;
 import appeng.api.storage.cells.ISaveProvider;
 import appeng.api.storage.cells.StorageCell;
-import lombok.Getter;
-import net.minecraft.nbt.CompoundTag;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+
+import lombok.Getter;
 
 import java.math.BigInteger;
 
 public class DigitalSingularityStorageCell implements StorageCell {
-    private static final String KEY = "key";
-    private static final String COUNT = "count";
-
     private final ItemStack stack;
     private final ISaveProvider container;
 
     private final AEKeyType type;
+
     @Getter
     private AEKey storedItem;
+
     @Getter
     private final AEKey filterItem;
+
     @Getter
     private BigInteger count;
 
@@ -38,13 +41,12 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
         DigitalSingularityCellItem cell = (DigitalSingularityCellItem) stack.getItem();
 
-        storedItem = getTag().contains(KEY) ? cell.getKeyType().loadKeyFromTag(getTag().getCompound(KEY)) : null;
+        var storage = stack.get(ModComponents.SINGULARITY_STORAGE);
+        storedItem = storage != null ? storage.getStoredItem() : null;
         filterItem = cell.getConfigInventory(stack).getKey(0);
         type = cell.getKeyType();
 
-        count = !getTag().getString(COUNT).isEmpty()
-            ? new BigInteger(getTag().getString(COUNT))
-            : BigInteger.ZERO;
+        count = storage != null ? new BigInteger(storage.getCount()) : BigInteger.ZERO;
     }
 
     @Override
@@ -69,11 +71,10 @@ public class DigitalSingularityStorageCell implements StorageCell {
             return;
         }
         if (storedItem == null || count.signum() < 1) {
-            getTag().remove(KEY);
-            getTag().remove(COUNT);
+            stack.remove(ModComponents.SINGULARITY_STORAGE);
         } else {
-            getTag().put(KEY, storedItem.toTagGeneric());
-            getTag().putString(COUNT, count.toString());
+            var storage = new DigitalSingularityStorage(storedItem, count.toString());
+            stack.set(ModComponents.SINGULARITY_STORAGE, storage);
         }
 
         isPersisted = true;
@@ -169,10 +170,6 @@ public class DigitalSingularityStorageCell implements StorageCell {
         } else {
             persist();
         }
-    }
-
-    private CompoundTag getTag() {
-        return stack.getOrCreateTag();
     }
 
     private long clampedLong(BigInteger toClamp, long limit) {
