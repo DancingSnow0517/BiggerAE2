@@ -1,16 +1,6 @@
 package cn.dancingsnow.bigger_ae2.item.cell;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
+import cn.dancingsnow.bigger_ae2.util.NumberUtil;
 
 import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;
@@ -29,7 +19,19 @@ import appeng.items.contents.CellConfig;
 import appeng.items.storage.StorageCellTooltipComponent;
 import appeng.util.ConfigInventory;
 import appeng.util.InteractionUtil;
-import cn.dancingsnow.bigger_ae2.util.NumberUtil;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
+
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,10 +1,12 @@
 package cn.dancingsnow.bigger_ae2.block;
 
-import net.minecraft.world.item.Item;
+import cn.dancingsnow.bigger_ae2.init.ModBlocks;
 
 import appeng.block.crafting.CraftingUnitBlock;
 import appeng.block.crafting.ICraftingUnitType;
-import cn.dancingsnow.bigger_ae2.init.ModBlocks;
+
+import net.minecraft.world.item.Item;
+
 import com.tterrag.registrate.util.entry.BlockEntry;
 import lombok.Getter;
 

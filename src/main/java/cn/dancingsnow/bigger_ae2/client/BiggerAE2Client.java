@@ -1,17 +1,18 @@
 package cn.dancingsnow.bigger_ae2.client;
 
+import cn.dancingsnow.bigger_ae2.BiggerAE2Mod;
+import cn.dancingsnow.bigger_ae2.block.ModCraftingUnitType;
+import cn.dancingsnow.bigger_ae2.init.ModBlocks;
+
+import appeng.client.render.crafting.CraftingCubeModel;
+import appeng.hooks.BuiltInModelHooks;
+
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-
-import appeng.client.render.crafting.CraftingCubeModel;
-import appeng.hooks.BuiltInModelHooks;
-import cn.dancingsnow.bigger_ae2.BiggerAE2Mod;
-import cn.dancingsnow.bigger_ae2.block.ModCraftingUnitType;
-import cn.dancingsnow.bigger_ae2.init.ModBlocks;
 
 @Mod(value = BiggerAE2Mod.MOD_ID, dist = Dist.CLIENT)
 public class BiggerAE2Client {

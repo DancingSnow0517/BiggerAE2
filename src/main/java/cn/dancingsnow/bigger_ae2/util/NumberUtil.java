@@ -29,10 +29,6 @@ public class NumberUtil {
         DecimalFormat df = new DecimalFormat("#.##");
         String formattedNumber = df.format(temp.doubleValue());
 
-        //        if (formattedNumber.endsWith(".00")) {
-        //            formattedNumber = formattedNumber.substring(0, formattedNumber.length() - 3);
-        //        }
-
         if (unitIndex >= UNITS.length) {
             return String.format("%.2e", number.doubleValue());
         }

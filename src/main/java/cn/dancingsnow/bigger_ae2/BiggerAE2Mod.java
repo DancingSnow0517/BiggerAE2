@@ -1,6 +1,19 @@
 package cn.dancingsnow.bigger_ae2;
 
-import com.tterrag.registrate.util.RegistrateDistExecutor;
+import cn.dancingsnow.bigger_ae2.data.generator.BiggerAE2Datagen;
+import cn.dancingsnow.bigger_ae2.init.ModBlockEntities;
+import cn.dancingsnow.bigger_ae2.init.ModBlocks;
+import cn.dancingsnow.bigger_ae2.init.ModComponents;
+import cn.dancingsnow.bigger_ae2.init.ModCreativeTab;
+import cn.dancingsnow.bigger_ae2.init.ModItems;
+import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
+import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
+
+import appeng.api.storage.StorageCells;
+import appeng.api.upgrades.Upgrades;
+import appeng.core.definitions.AEItems;
+import appeng.core.localization.GuiText;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -10,22 +23,10 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 
-import appeng.api.storage.StorageCells;
-import appeng.api.upgrades.Upgrades;
-import appeng.core.definitions.AEItems;
-import appeng.core.localization.GuiText;
-import cn.dancingsnow.bigger_ae2.data.generator.BiggerAE2Datagen;
-import cn.dancingsnow.bigger_ae2.init.ModBlockEntities;
-import cn.dancingsnow.bigger_ae2.init.ModBlocks;
-import cn.dancingsnow.bigger_ae2.init.ModComponents;
-import cn.dancingsnow.bigger_ae2.init.ModCreativeTab;
-import cn.dancingsnow.bigger_ae2.init.ModItems;
-import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
-import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
 import com.mojang.logging.LogUtils;
 import com.tterrag.registrate.Registrate;
-import net.neoforged.neoforge.event.AddPackFindersEvent;
 import org.slf4j.Logger;
 
 @Mod(BiggerAE2Mod.MOD_ID)
@@ -84,7 +85,6 @@ public class BiggerAE2Mod {
                 Component.translatable("bigger_ae2.old_pack"),
                 PackSource.BUILT_IN,
                 false,
-                Pack.Position.TOP
-        );
+                Pack.Position.TOP);
     }
 }

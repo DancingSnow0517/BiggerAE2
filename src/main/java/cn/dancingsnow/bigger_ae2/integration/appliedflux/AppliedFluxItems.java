@@ -1,15 +1,17 @@
 package cn.dancingsnow.bigger_ae2.integration.appliedflux;
 
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import cn.dancingsnow.bigger_ae2.init.ModItems;
+import cn.dancingsnow.bigger_ae2.integration.appliedflux.item.AdvancedItemFECell;
+import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
 import appeng.items.materials.MaterialItem;
-import cn.dancingsnow.bigger_ae2.init.ModItems;
-import cn.dancingsnow.bigger_ae2.integration.appliedflux.item.AdvancedItemFECell;
-import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
+
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+
 import com.glodblock.github.appflux.common.AFItemAndBlock;
 import com.glodblock.github.appflux.common.me.key.type.FluxKeyType;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;

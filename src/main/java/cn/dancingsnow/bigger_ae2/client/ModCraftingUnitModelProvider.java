@@ -1,15 +1,16 @@
 package cn.dancingsnow.bigger_ae2.client;
 
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.world.inventory.InventoryMenu;
+import cn.dancingsnow.bigger_ae2.BiggerAE2Mod;
+import cn.dancingsnow.bigger_ae2.block.ModCraftingUnitType;
 
 import appeng.client.render.crafting.AbstractCraftingUnitModelProvider;
 import appeng.client.render.crafting.LightBakedModel;
 import appeng.core.AppEng;
-import cn.dancingsnow.bigger_ae2.BiggerAE2Mod;
-import cn.dancingsnow.bigger_ae2.block.ModCraftingUnitType;
+
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.world.inventory.InventoryMenu;
 
 import java.util.ArrayList;
 import java.util.Collections;

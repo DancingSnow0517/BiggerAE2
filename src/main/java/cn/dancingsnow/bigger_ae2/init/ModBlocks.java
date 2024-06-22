@@ -1,14 +1,16 @@
 package cn.dancingsnow.bigger_ae2.init;
 
+import cn.dancingsnow.bigger_ae2.block.ModCraftingUnitType;
+
+import appeng.block.crafting.AbstractCraftingUnitBlock;
+import appeng.block.crafting.CraftingUnitBlock;
+import appeng.core.definitions.AEBlocks;
+
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.BlockItem;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 
-import appeng.block.crafting.AbstractCraftingUnitBlock;
-import appeng.block.crafting.CraftingUnitBlock;
-import appeng.core.definitions.AEBlocks;
-import cn.dancingsnow.bigger_ae2.block.ModCraftingUnitType;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.BlockEntry;
 

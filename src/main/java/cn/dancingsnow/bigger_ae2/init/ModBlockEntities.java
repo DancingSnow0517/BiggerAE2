@@ -1,8 +1,10 @@
 package cn.dancingsnow.bigger_ae2.init;
 
+import cn.dancingsnow.bigger_ae2.block.ModCraftingUnitType;
+
 import appeng.blockentity.AEBaseBlockEntity;
 import appeng.blockentity.crafting.CraftingBlockEntity;
-import cn.dancingsnow.bigger_ae2.block.ModCraftingUnitType;
+
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 import static cn.dancingsnow.bigger_ae2.BiggerAE2Mod.REGISTRATE;

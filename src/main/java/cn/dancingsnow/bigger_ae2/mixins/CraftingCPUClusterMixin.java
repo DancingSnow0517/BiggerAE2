@@ -1,6 +1,7 @@
 package cn.dancingsnow.bigger_ae2.mixins;
 
 import appeng.me.cluster.implementations.CraftingCPUCluster;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;

@@ -1,11 +1,13 @@
 package cn.dancingsnow.bigger_ae2.item.cell;
 
 import appeng.api.stacks.AEKey;
+
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -20,6 +22,7 @@ public class DigitalSingularityStorage {
                     .apply(instance, DigitalSingularityStorage::new));
 
     @Nullable private final AEKey storedItem;
+
     private final String count;
 
     public DigitalSingularityStorage(@Nullable AEKey storedItem, String count) {
@@ -37,14 +40,15 @@ public class DigitalSingularityStorage {
         buf.writeUtf(count);
     }
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, DigitalSingularityStorage>
-            STREAM_CODEC = StreamCodec.ofMember(DigitalSingularityStorage::encode, DigitalSingularityStorage::new);
+    public static final StreamCodec<RegistryFriendlyByteBuf, DigitalSingularityStorage> STREAM_CODEC =
+            StreamCodec.ofMember(DigitalSingularityStorage::encode, DigitalSingularityStorage::new);
 
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj instanceof DigitalSingularityStorage storage) {
-            return Objects.equals(storage.getStoredItem(), getStoredItem()) && Objects.equals(storage.getCount(), getCount());
+            return Objects.equals(storage.getStoredItem(), getStoredItem())
+                    && Objects.equals(storage.getCount(), getCount());
         } else {
             return false;
         }

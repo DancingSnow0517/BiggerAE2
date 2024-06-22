@@ -1,5 +1,13 @@
 package cn.dancingsnow.bigger_ae2.integration.appliedflux.item;
 
+import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
+
+import appeng.api.stacks.KeyCounter;
+import appeng.api.storage.StorageCells;
+import appeng.api.storage.cells.StorageCell;
+import appeng.core.localization.PlayerMessages;
+import appeng.util.InteractionUtil;
+
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -9,12 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 
-import appeng.api.stacks.KeyCounter;
-import appeng.api.storage.StorageCells;
-import appeng.api.storage.cells.StorageCell;
-import appeng.core.localization.PlayerMessages;
-import appeng.util.InteractionUtil;
-import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
 import com.glodblock.github.appflux.common.items.ItemFECell;
 import org.jetbrains.annotations.NotNull;
 

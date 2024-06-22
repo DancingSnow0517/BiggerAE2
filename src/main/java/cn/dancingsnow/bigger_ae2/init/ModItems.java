@@ -1,9 +1,6 @@
 package cn.dancingsnow.bigger_ae2.init;
 
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.world.item.Items;
+import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
 
 import appeng.api.stacks.AEKeyType;
 import appeng.core.definitions.AEBlocks;
@@ -11,7 +8,12 @@ import appeng.core.definitions.AEItems;
 import appeng.items.materials.MaterialItem;
 import appeng.items.materials.StorageComponentItem;
 import appeng.items.storage.BasicStorageCell;
-import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
+
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.world.item.Items;
+
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
