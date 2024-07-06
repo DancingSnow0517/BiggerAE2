@@ -47,11 +47,13 @@ dependencies {
     topCompileOnlyApi(forge.theoneprobe) { transitive = false }
 
     // AE2
-    ae2Implementation(forge.ae2) { transitive = false }
+    // maven haven't uploaded.
+    // ae2Implementation(forge.ae2) { transitive = false }
+    ae2Implementation("curse.maven:ae2-223794:5490518")
 
     // applied flux
-    compileOnly("curse.maven:glodium-957920:5337083")
-    compileOnly("curse.maven:applied-flux-965012:5415184")
+    implementation("curse.maven:glodium-957920:5491696")
+    implementation("curse.maven:applied-flux-965012:5504017")
 
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'

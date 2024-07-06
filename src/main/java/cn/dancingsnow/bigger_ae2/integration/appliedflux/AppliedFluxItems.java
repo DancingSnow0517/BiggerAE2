@@ -8,11 +8,11 @@ import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
 import appeng.items.materials.MaterialItem;
 
+import com.glodblock.github.appflux.common.AFSingletons;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 
-import com.glodblock.github.appflux.common.AFItemAndBlock;
 import com.glodblock.github.appflux.common.me.key.type.FluxKeyType;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -29,9 +29,9 @@ public class AppliedFluxItems {
                     .pattern("CCC")
                     .define('A', AEBlocks.QUARTZ_GLASS)
                     .define('B', AEItems.SKY_DUST)
-                    .define('C', AFItemAndBlock.HARDEN_INSULATING_RESIN)
+                    .define('C', AFSingletons.HARDEN_INSULATING_RESIN)
                     .unlockedBy(
-                            "has_item", RegistrateRecipeProvider.has(AFItemAndBlock.HARDEN_INSULATING_RESIN))
+                            "has_item", RegistrateRecipeProvider.has(AFSingletons.HARDEN_INSULATING_RESIN))
                     .save(provider))
             .register();
 

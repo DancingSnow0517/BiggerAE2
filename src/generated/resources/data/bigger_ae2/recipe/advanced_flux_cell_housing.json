@@ -18,7 +18,7 @@
     "CCC"
   ],
   "result": {
-    "item": "bigger_ae2:advanced_flux_cell_housing"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "bigger_ae2:advanced_flux_cell_housing"
+  }
 }

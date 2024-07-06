@@ -20,6 +20,9 @@ import net.minecraft.world.level.Level;
 import com.glodblock.github.appflux.common.items.ItemFECell;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class AdvancedItemFECell extends ItemFECell {
     private final ItemLike coreItem;
 
@@ -32,7 +35,7 @@ public class AdvancedItemFECell extends ItemFECell {
     public @NotNull InteractionResultHolder<ItemStack> use(
             Level level, Player player, InteractionHand hand) {
         this.disassembleDrive(player.getItemInHand(hand), level, player);
-        return new InteractionResultHolder(
+        return new InteractionResultHolder<>(
                 InteractionResult.sidedSuccess(level.isClientSide()), player.getItemInHand(hand));
     }
 
