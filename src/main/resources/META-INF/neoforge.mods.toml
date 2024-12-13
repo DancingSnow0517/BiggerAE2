@@ -34,7 +34,7 @@ license="${mod_license}"
 [[dependencies."${mod_id}"]]
     modId="ae2"
     type="required"
-    versionRange="[19.0.0,)"
+    versionRange="[19.0.26,)"
     ordering="AFTER"
     side="BOTH"
     [dependencies."${mod_id}".mc-publish]
