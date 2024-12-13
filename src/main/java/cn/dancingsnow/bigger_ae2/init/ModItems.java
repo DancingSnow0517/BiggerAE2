@@ -1,5 +1,6 @@
 package cn.dancingsnow.bigger_ae2.init;
 
+import appeng.recipes.game.StorageCellDisassemblyRecipe;
 import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
 
 import appeng.api.stacks.AEKeyType;
@@ -16,6 +17,8 @@ import net.minecraft.world.item.Items;
 
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
+
+import java.util.List;
 
 import static cn.dancingsnow.bigger_ae2.BiggerAE2Mod.REGISTRATE;
 
@@ -66,18 +69,26 @@ public class ModItems {
                     "quantum_item_storage_cell",
                     p -> new BasicStorageCell(
                             p.stacksTo(1),
-                            QUANTUM_CELL_COMPONENT,
-                            ADVANCED_ITEM_CELL_HOUSING,
                             20,
                             (1 << 28 - 1) / 1024,
                             65536,
                             1,
                             AEKeyType.items()))
-            .recipe((ctx, provider) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
+            .recipe((ctx, provider) -> {
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
                     .requires(QUANTUM_CELL_COMPONENT)
                     .requires(ADVANCED_ITEM_CELL_HOUSING)
                     .unlockedBy("has_item", RegistrateRecipeProvider.has(ADVANCED_ITEM_CELL_HOUSING))
-                    .save(provider))
+                    .save(provider);
+                provider.accept(
+                    ctx.getId().withPrefix("cell_upgrade/"),
+                    new StorageCellDisassemblyRecipe(ctx.get(), List.of(
+                        QUANTUM_CELL_COMPONENT.asStack(1),
+                        ADVANCED_ITEM_CELL_HOUSING.asStack(1)
+                    )),
+                    null
+                );
+            })
             .register();
 
     public static final ItemEntry<BasicStorageCell> QUANTUM_FLUID_CELL = REGISTRATE
@@ -85,18 +96,26 @@ public class ModItems {
                     "quantum_fluid_storage_cell",
                     p -> new BasicStorageCell(
                             p.stacksTo(1),
-                            QUANTUM_CELL_COMPONENT,
-                            ADVANCED_FLUID_CELL_HOUSING,
                             20,
                             (1 << 28 - 1) / 1024,
                             65536,
                             1,
                             AEKeyType.fluids()))
-            .recipe((ctx, provider) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
+            .recipe((ctx, provider) -> {
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
                     .requires(QUANTUM_CELL_COMPONENT)
                     .requires(ADVANCED_FLUID_CELL_HOUSING)
                     .unlockedBy("has_item", RegistrateRecipeProvider.has(ADVANCED_FLUID_CELL_HOUSING))
-                    .save(provider))
+                    .save(provider);
+                provider.accept(
+                    ctx.getId().withPrefix("cell_upgrade/"),
+                    new StorageCellDisassemblyRecipe(ctx.get(), List.of(
+                        QUANTUM_CELL_COMPONENT.asStack(1),
+                        ADVANCED_FLUID_CELL_HOUSING.asStack(1)
+                    )),
+                    null
+                );
+            })
             .register();
 
     public static final ItemEntry<MaterialItem> SINGULARITY_CELL_COMPONENT = REGISTRATE

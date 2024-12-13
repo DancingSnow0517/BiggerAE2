@@ -26,7 +26,7 @@ dependencies {
     // JEI
     jeiCompileOnly(forge.jei.common.api) { transitive = false }
     jeiCompileOnly(forge.jei.forge.api) { transitive = false }
-    jeiCompileOnly(forge.jei.forge.impl) { transitive = false }
+    jeiImplementation(forge.jei.forge.impl) { transitive = false }
 
     // REI
     reiCompileOnlyApi(forge.rei.plugin)
@@ -42,11 +42,11 @@ dependencies {
     // AE2
     // maven haven't uploaded.
     // ae2Implementation(forge.ae2) { transitive = false }
-    ae2Implementation("curse.maven:ae2-223794:5662490")
+    ae2Implementation("curse.maven:applied-energistics-2-223794:5979641")
 
     // applied flux
-    implementation("curse.maven:glodium-957920:5614731")
-    implementation("curse.maven:applied-flux-965012:5639620")
+    implementation("curse.maven:glodium-957920:5821676")
+    implementation("curse.maven:applied-flux-965012:5946853")
 
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'
