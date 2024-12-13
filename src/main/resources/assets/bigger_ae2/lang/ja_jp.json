@@ -1,0 +1,23 @@
+{
+  "block.bigger_ae2.1024_core_crafting_accelerator": "1024コアクラフト加速器",
+  "block.bigger_ae2.16_core_crafting_accelerator": "16コアクラフト加速器",
+  "block.bigger_ae2.256_core_crafting_accelerator": "256コアクラフト加速器",
+  "block.bigger_ae2.4_core_crafting_accelerator": "4コアクラフト加速器",
+  "block.bigger_ae2.64_core_crafting_accelerator": "64コアクラフト加速器",
+  "item.bigger_ae2.advanced_fluid_cell_housing": "発展型液体セル筐体",
+  "item.bigger_ae2.advanced_flux_cell_housing": "発展型FEセル筐体",
+  "item.bigger_ae2.advanced_item_cell_housing": "発展型アイテムセル筐体",
+  "item.bigger_ae2.digital_singularity_cell_component": "デジタルシンギュラリティセルコンポーネント",
+  "item.bigger_ae2.digital_singularity_fluid_storage_cell": "デジタルシンギュラリティ液体ストレージセル",
+  "item.bigger_ae2.digital_singularity_flux_storage_cell": "デジタルシンギュラリティFEストレージセル",
+  "item.bigger_ae2.digital_singularity_item_storage_cell": "デジタルシンギュラリティアイテムストレージセル",
+  "item.bigger_ae2.quantum_cell_component": "量子セルコンポーネント",
+  "item.bigger_ae2.quantum_fluid_storage_cell": "量子液体ストレージセル",
+  "item.bigger_ae2.quantum_flux_storage_cell": "量子FEセル",
+  "item.bigger_ae2.quantum_item_storage_cell": "量子アイテムストレージセル",
+  "itemGroup.bigger_ae2.bigger_ae2": "Bigger Ae2",
+  "tooltip.bigger_ae2.contains": "貯蓄: %s",
+  "tooltip.bigger_ae2.empty": "空",
+  "tooltip.bigger_ae2.partitioned": "パーティション: %s",
+  "tooltip.bigger_ae2.quantity": "数量 %s"
+}
