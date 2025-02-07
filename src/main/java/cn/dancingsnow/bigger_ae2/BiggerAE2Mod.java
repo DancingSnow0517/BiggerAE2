@@ -7,6 +7,7 @@ import cn.dancingsnow.bigger_ae2.init.ModComponents;
 import cn.dancingsnow.bigger_ae2.init.ModCreativeTab;
 import cn.dancingsnow.bigger_ae2.init.ModItems;
 import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
+import cn.dancingsnow.bigger_ae2.integration.appliedmekanistics.AppliedMekanisticsItems;
 import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
 
 import appeng.api.storage.StorageCells;
@@ -20,6 +21,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
@@ -44,11 +46,16 @@ public class BiggerAE2Mod {
         ModBlockEntities.register();
         ModComponents.register(modEventBus);
 
-        try {
-            Class.forName("com.glodblock.github.appflux.common.me.key.type.FluxKeyType");
+        if (ModList.get().isLoaded("appflux")) {
             AppliedFluxItems.register();
-        } catch (ClassNotFoundException e) {
+        } else {
             BiggerAE2Mod.LOGGER.debug("Applied Flux not installed, passed");
+        }
+
+        if (ModList.get().isLoaded("appmek")) {
+            AppliedMekanisticsItems.register();
+        } else {
+            BiggerAE2Mod.LOGGER.debug("Applied Mekanistics not installed, passed");
         }
 
         modEventBus.addListener(BiggerAE2Mod::initUpgrades);
