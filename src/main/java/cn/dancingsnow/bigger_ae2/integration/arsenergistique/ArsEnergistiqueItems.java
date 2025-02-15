@@ -9,9 +9,11 @@ import appeng.items.materials.MaterialItem;
 import appeng.recipes.game.StorageCellDisassemblyRecipe;
 
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
@@ -26,6 +28,7 @@ public class ArsEnergistiqueItems {
     public static final ItemEntry<MaterialItem> ADVANCED_SOURCE_CELL_HOUSING = REGISTRATE
             .item("advanced_source_cell_housing", MaterialItem::new)
             .recipe((ctx, provider) -> {
+                RecipeOutput recipeOutput = provider.withConditions(new ModLoadedCondition("arseng"));
                 ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ctx.get())
                         .pattern("ABA")
                         .pattern("B B")
@@ -34,7 +37,7 @@ public class ArsEnergistiqueItems {
                         .define('B', Items.REDSTONE)
                         .define('C', ItemsRegistry.SOURCE_GEM)
                         .unlockedBy("hasitem", RegistrateRecipeProvider.has(ItemsRegistry.SOURCE_GEM))
-                        .save(provider);
+                        .save(recipeOutput);
             })
             .register();
 
@@ -43,12 +46,13 @@ public class ArsEnergistiqueItems {
                     "quantum_source_storage_cell",
                     p -> new AdvancedSourceCellItem(p, 20, (1 << 28 - 1) / 1024))
             .recipe((ctx, provider) -> {
+                RecipeOutput recipeOutput = provider.withConditions(new ModLoadedCondition("arseng"));
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
                         .requires(ADVANCED_SOURCE_CELL_HOUSING)
                         .requires(ModItems.QUANTUM_CELL_COMPONENT)
                         .unlockedBy("has_item", RegistrateRecipeProvider.has(ADVANCED_SOURCE_CELL_HOUSING))
-                        .save(provider);
-                provider.accept(
+                        .save(recipeOutput);
+                recipeOutput.accept(
                         ctx.getId().withPrefix("cell_upgrade/"),
                         new StorageCellDisassemblyRecipe(
                                 ctx.get(),
@@ -68,12 +72,14 @@ public class ArsEnergistiqueItems {
                                     SourceKeyType.TYPE,
                                     ModItems.SINGULARITY_CELL_COMPONENT,
                                     ADVANCED_SOURCE_CELL_HOUSING))
-                    .recipe(
-                            (ctx, provider) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
-                                    .requires(ADVANCED_SOURCE_CELL_HOUSING)
-                                    .requires(ModItems.SINGULARITY_CELL_COMPONENT)
-                                    .unlockedBy("hasitem", RegistrateRecipeProvider.has(ADVANCED_SOURCE_CELL_HOUSING))
-                                    .save(provider))
+                    .recipe((ctx, provider) -> {
+                        RecipeOutput recipeOutput = provider.withConditions(new ModLoadedCondition("arseng"));
+                        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
+                                .requires(ADVANCED_SOURCE_CELL_HOUSING)
+                                .requires(ModItems.SINGULARITY_CELL_COMPONENT)
+                                .unlockedBy("hasitem", RegistrateRecipeProvider.has(ADVANCED_SOURCE_CELL_HOUSING))
+                                .save(recipeOutput);
+                    })
                     .register();
 
     public static void register() {}

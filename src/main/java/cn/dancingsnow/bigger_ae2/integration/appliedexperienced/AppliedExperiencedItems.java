@@ -10,9 +10,11 @@ import appeng.items.materials.MaterialItem;
 import appeng.recipes.game.StorageCellDisassemblyRecipe;
 
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -25,15 +27,18 @@ import static cn.dancingsnow.bigger_ae2.BiggerAE2Mod.REGISTRATE;
 public class AppliedExperiencedItems {
     public static final ItemEntry<MaterialItem> ADVANCED_EXPERIENCE_CELL_HOUSING = REGISTRATE
             .item("advanced_experience_cell_housing", MaterialItem::new)
-            .recipe((ctx, provider) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ctx.get())
-                    .pattern("ABA")
-                    .pattern("B B")
-                    .pattern("CCC")
-                    .define('A', AEBlocks.QUARTZ_GLASS)
-                    .define('B', AEItems.SKY_DUST)
-                    .define('C', Tags.Items.GEMS_LAPIS)
-                    .unlockedBy("has_item", RegistrateRecipeProvider.has(Tags.Items.GEMS_LAPIS))
-                    .save(provider))
+            .recipe((ctx, provider) -> {
+                RecipeOutput recipeOutput = provider.withConditions(new ModLoadedCondition("appex"));
+                ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ctx.get())
+                        .pattern("ABA")
+                        .pattern("B B")
+                        .pattern("CCC")
+                        .define('A', AEBlocks.QUARTZ_GLASS)
+                        .define('B', AEItems.SKY_DUST)
+                        .define('C', Tags.Items.GEMS_LAPIS)
+                        .unlockedBy("has_item", RegistrateRecipeProvider.has(Tags.Items.GEMS_LAPIS))
+                        .save(recipeOutput);
+            })
             .register();
 
     public static final ItemEntry<AdvancedExperienceStorageCell> QUANTUM_EXPERIENCE_CELL = REGISTRATE
@@ -41,12 +46,13 @@ public class AppliedExperiencedItems {
                     "quantum_experience_storage_cell",
                     p -> new AdvancedExperienceStorageCell(p, 20, (1 << 28 - 1) / 1024))
             .recipe((ctx, provider) -> {
+                RecipeOutput recipeOutput = provider.withConditions(new ModLoadedCondition("appex"));
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
                         .requires(ADVANCED_EXPERIENCE_CELL_HOUSING)
                         .requires(ModItems.QUANTUM_CELL_COMPONENT)
                         .unlockedBy("has_item", RegistrateRecipeProvider.has(ModItems.QUANTUM_CELL_COMPONENT))
-                        .save(provider);
-                provider.accept(
+                        .save(recipeOutput);
+                recipeOutput.accept(
                         ctx.getId().withPrefix("cell_upgrade/"),
                         new StorageCellDisassemblyRecipe(
                                 ctx.get(),
@@ -65,11 +71,15 @@ public class AppliedExperiencedItems {
                             ExperienceKeyType.TYPE,
                             ModItems.SINGULARITY_CELL_COMPONENT,
                             ADVANCED_EXPERIENCE_CELL_HOUSING))
-            .recipe((ctx, provider) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
-                    .requires(ADVANCED_EXPERIENCE_CELL_HOUSING)
-                    .requires(ModItems.SINGULARITY_CELL_COMPONENT)
-                    .unlockedBy("has_item", RegistrateRecipeProvider.has(ModItems.SINGULARITY_CELL_COMPONENT))
-                    .save(provider))
+            .recipe((ctx, provider) -> {
+                RecipeOutput recipeOutput = provider.withConditions(new ModLoadedCondition("appex"));
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
+                        .requires(ADVANCED_EXPERIENCE_CELL_HOUSING)
+                        .requires(ModItems.SINGULARITY_CELL_COMPONENT)
+                        .unlockedBy(
+                                "has_item", RegistrateRecipeProvider.has(ModItems.SINGULARITY_CELL_COMPONENT))
+                        .save(recipeOutput);
+            })
             .register();
 
     public static void register() {}

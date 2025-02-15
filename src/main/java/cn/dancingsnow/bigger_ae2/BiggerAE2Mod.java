@@ -60,10 +60,10 @@ public class BiggerAE2Mod {
             BiggerAE2Mod.LOGGER.debug("Applied Mekanistics not installed, passed");
         }
 
-        if (ModList.get().isLoaded("ars_nouveau")) {
+        if (ModList.get().isLoaded("arseng")) {
             ArsEnergistiqueItems.register();
         } else {
-            BiggerAE2Mod.LOGGER.debug("Ars Nouveau not installed, passed");
+            BiggerAE2Mod.LOGGER.debug("Ars ArsEnergistique not installed, passed");
         }
 
         if (ModList.get().isLoaded("appex")) {
