@@ -6,6 +6,7 @@ import cn.dancingsnow.bigger_ae2.init.ModBlocks;
 import cn.dancingsnow.bigger_ae2.init.ModComponents;
 import cn.dancingsnow.bigger_ae2.init.ModCreativeTab;
 import cn.dancingsnow.bigger_ae2.init.ModItems;
+import cn.dancingsnow.bigger_ae2.integration.appliedexperienced.AppliedExperiencedItems;
 import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
 import cn.dancingsnow.bigger_ae2.integration.appliedmekanistics.AppliedMekanisticsItems;
 import cn.dancingsnow.bigger_ae2.integration.arsenergistique.ArsEnergistiqueItems;
@@ -63,6 +64,12 @@ public class BiggerAE2Mod {
             ArsEnergistiqueItems.register();
         } else {
             BiggerAE2Mod.LOGGER.debug("Ars Nouveau not installed, passed");
+        }
+
+        if (ModList.get().isLoaded("appex")) {
+            AppliedExperiencedItems.register();
+        } else {
+            BiggerAE2Mod.LOGGER.debug("Applied Experienced not installed, passed");
         }
 
         modEventBus.addListener(BiggerAE2Mod::initUpgrades);

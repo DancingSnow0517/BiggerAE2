@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "bigger_ae2:advanced_chemical_cell_housing"
+      "item": "bigger_ae2:advanced_experience_cell_housing"
     },
     {
       "item": "bigger_ae2:quantum_cell_component"
@@ -11,6 +11,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "bigger_ae2:quatum_chemical_storage_cell"
+    "id": "bigger_ae2:quantum_experience_storage_cell"
   }
 }

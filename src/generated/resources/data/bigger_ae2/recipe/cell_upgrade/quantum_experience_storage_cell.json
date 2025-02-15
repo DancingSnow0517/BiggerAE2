@@ -1,10 +1,10 @@
 {
   "type": "ae2:storage_cell_disassembly",
-  "cell": "bigger_ae2:quatum_chemical_storage_cell",
+  "cell": "bigger_ae2:quantum_experience_storage_cell",
   "cell_disassembly_items": [
     {
       "count": 1,
-      "id": "bigger_ae2:advanced_chemical_cell_housing"
+      "id": "bigger_ae2:advanced_experience_cell_housing"
     },
     {
       "count": 1,
