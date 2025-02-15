@@ -17,8 +17,6 @@ java {
 }
 
 dependencies {
-    implementation(forge.neoForge)
-
     // Registrate
     api("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}")
     jarJar("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}")
@@ -47,6 +45,11 @@ dependencies {
     // applied flux
     implementation("curse.maven:glodium-957920:5821676")
     implementation("curse.maven:applied-flux-965012:5946853")
+
+    // applied mekanistics
+    implementation("curse.maven:mekanism-268560:6018306")
+    implementation("curse.maven:applied-mekanistics-574300:5978711")
+
 
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'
