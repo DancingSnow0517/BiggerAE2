@@ -54,7 +54,7 @@ public class AppliedFluxItems {
             .recipe((ctx, provider) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
                     .requires(ADVANCED_FLUX_CELL_HOUSING)
                     .requires(ModItems.SINGULARITY_CELL_COMPONENT)
-                    .unlockedBy("has_item", RegistrateRecipeProvider.has(ModItems.QUANTUM_CELL_COMPONENT))
+                    .unlockedBy("has_item", RegistrateRecipeProvider.has(ModItems.SINGULARITY_CELL_COMPONENT))
                     .save(provider))
             .register();
 

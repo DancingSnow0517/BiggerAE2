@@ -43,7 +43,7 @@ public class AppliedMekanisticsItems {
     public static final ItemEntry<AdvancedChemicalStorageCell> QUANTUM_CHEMICAL_STORAGE_CELL =
             REGISTRATE
                     .item(
-                            "quatum_chemical_storage_cell",
+                            "quantum_chemical_storage_cell",
                             p -> new AdvancedChemicalStorageCell(p, 20, (1 << 28 - 1) / 1024, 65536, 1))
                     .recipe((ctx, provider) -> {
                         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get())
