@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "bigger_ae2:advanced_source_cell_housing"
+    },
+    {
+      "item": "bigger_ae2:digital_singularity_cell_component"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "bigger_ae2:digital_singularity_source_storage_cell"
+  }
+}
