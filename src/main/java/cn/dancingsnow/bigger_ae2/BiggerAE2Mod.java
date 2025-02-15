@@ -8,6 +8,7 @@ import cn.dancingsnow.bigger_ae2.init.ModCreativeTab;
 import cn.dancingsnow.bigger_ae2.init.ModItems;
 import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
 import cn.dancingsnow.bigger_ae2.integration.appliedmekanistics.AppliedMekanisticsItems;
+import cn.dancingsnow.bigger_ae2.integration.arsenergistique.ArsEnergistiqueItems;
 import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
 
 import appeng.api.storage.StorageCells;
@@ -56,6 +57,12 @@ public class BiggerAE2Mod {
             AppliedMekanisticsItems.register();
         } else {
             BiggerAE2Mod.LOGGER.debug("Applied Mekanistics not installed, passed");
+        }
+
+        if (ModList.get().isLoaded("ars_nouveau")) {
+            ArsEnergistiqueItems.register();
+        } else {
+            BiggerAE2Mod.LOGGER.debug("Ars Nouveau not installed, passed");
         }
 
         modEventBus.addListener(BiggerAE2Mod::initUpgrades);

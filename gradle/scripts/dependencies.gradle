@@ -50,6 +50,12 @@ dependencies {
     implementation("curse.maven:mekanism-268560:6018306")
     implementation("curse.maven:applied-mekanistics-574300:5978711")
 
+    // ars-energistique
+    implementation("curse.maven:ars-nouveau-401955:6175894")
+    implementation("curse.maven:ars-energistique-905641:6083715")
+
+    runtimeOnly("curse.maven:curios-309927:6076118")
+    runtimeOnly("curse.maven:geckolib-388172:6027599")
 
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'
