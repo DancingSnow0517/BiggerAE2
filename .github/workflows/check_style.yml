@@ -26,5 +26,6 @@ jobs:
         run: curl -o checkstyle.jar -L https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.15.0/checkstyle-10.15.0-all.jar
       - name: checkstyle
         env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REVIEWDOG_TOKEN: ${{ secrets.REVIEWDOG_TOKEN }}
         run: java -jar checkstyle.jar -c style.xml -f xml src | reviewdog -f=checkstyle -name="Checkstyle" -reporter=github-pr-review -level=warning
