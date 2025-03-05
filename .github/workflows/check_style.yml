@@ -10,16 +10,8 @@ jobs:
       checks: write
       contents: read
     steps:
-      - name: PR head repo
-        id: head_repo_name
-        run: |
-          HEAD_REPO_NAME=$(jq -r '.pull_request.head.repo.full_name' "$GITHUB_EVENT_PATH")
-          echo "PR head repo: $HEAD_REPO_NAME"
-          echo "repo=$HEAD_REPO_NAME" >> $GITHUB_OUTPUT
-      - name: checkout
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ steps.head_repo_name.outputs.repo }}
+      - name: check out
+        run: gh pr checkout ${{ github.event.pull_request.id }}
       - name: Setup Java 17
         uses: actions/setup-java@v3.6.0
         with:
