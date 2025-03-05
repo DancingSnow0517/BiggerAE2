@@ -105,4 +105,6 @@ public class BiggerAE2Mod {
                 false,
                 Pack.Position.TOP);
     }
+
+    private static void bad_func(){}
 }
