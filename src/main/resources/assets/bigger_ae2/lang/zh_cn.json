@@ -24,7 +24,7 @@
   "item.bigger_ae2.quantum_flux_storage_cell": "量子FE存储元件",
   "item.bigger_ae2.quantum_item_storage_cell": "量子物品存储元件",
   "item.bigger_ae2.quantum_source_storage_cell": "量子魔源存储元件",
-  "item.bigger_ae2.quatum_chemical_storage_cell": "量子化学品存储元件",
+  "item.bigger_ae2.quantum_chemical_storage_cell": "量子化学品存储元件",
   "itemGroup.bigger_ae2.bigger_ae2": "Bigger AE2",
   "tooltip.bigger_ae2.contains": "包含: %s",
   "tooltip.bigger_ae2.empty": "空",

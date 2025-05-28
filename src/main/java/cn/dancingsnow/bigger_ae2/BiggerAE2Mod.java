@@ -1,5 +1,10 @@
 package cn.dancingsnow.bigger_ae2;
 
+import appeng.api.AECapabilities;
+import appeng.api.storage.StorageCells;
+import appeng.api.upgrades.Upgrades;
+import appeng.core.definitions.AEItems;
+import appeng.core.localization.GuiText;
 import cn.dancingsnow.bigger_ae2.data.generator.BiggerAE2Datagen;
 import cn.dancingsnow.bigger_ae2.init.ModBlockEntities;
 import cn.dancingsnow.bigger_ae2.init.ModBlocks;
@@ -11,12 +16,8 @@ import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
 import cn.dancingsnow.bigger_ae2.integration.appliedmekanistics.AppliedMekanisticsItems;
 import cn.dancingsnow.bigger_ae2.integration.arsenergistique.ArsEnergistiqueItems;
 import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
-
-import appeng.api.storage.StorageCells;
-import appeng.api.upgrades.Upgrades;
-import appeng.core.definitions.AEItems;
-import appeng.core.localization.GuiText;
-
+import com.mojang.logging.LogUtils;
+import com.tterrag.registrate.Registrate;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -26,10 +27,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
-
-import com.mojang.logging.LogUtils;
-import com.tterrag.registrate.Registrate;
 import org.slf4j.Logger;
 
 @Mod(BiggerAE2Mod.MOD_ID)
@@ -75,6 +74,7 @@ public class BiggerAE2Mod {
         modEventBus.addListener(BiggerAE2Mod::initUpgrades);
         modEventBus.addListener(BiggerAE2Mod::initStorageCells);
         modEventBus.addListener(BiggerAE2Mod::packSetup);
+        modEventBus.addListener(BiggerAE2Mod::registerCapabilities);
 
         BiggerAE2Datagen.init();
     }
@@ -96,13 +96,21 @@ public class BiggerAE2Mod {
         StorageCells.addCellHandler(DigitalSingularityCellItem.HANDLER);
     }
 
+    private static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+            AECapabilities.IN_WORLD_GRID_NODE_HOST,
+            ModBlockEntities.CRAFTING_ACCELERATOR.get(),
+            ((o, unused) -> o)
+        );
+    }
+
     private static void packSetup(AddPackFindersEvent event) {
         event.addPackFinders(
-                BiggerAE2Mod.of("builtin_pack"),
-                PackType.CLIENT_RESOURCES,
-                Component.translatable("bigger_ae2.old_pack"),
-                PackSource.BUILT_IN,
-                false,
-                Pack.Position.TOP);
+            BiggerAE2Mod.of("builtin_pack"),
+            PackType.CLIENT_RESOURCES,
+            Component.translatable("bigger_ae2.old_pack"),
+            PackSource.BUILT_IN,
+            false,
+            Pack.Position.TOP);
     }
 }
