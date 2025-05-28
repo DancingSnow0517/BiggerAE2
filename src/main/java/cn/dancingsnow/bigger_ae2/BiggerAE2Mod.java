@@ -12,6 +12,7 @@ import cn.dancingsnow.bigger_ae2.integration.appliedmekanistics.AppliedMekanisti
 import cn.dancingsnow.bigger_ae2.integration.arsenergistique.ArsEnergistiqueItems;
 import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
 
+import appeng.api.AECapabilities;
 import appeng.api.storage.StorageCells;
 import appeng.api.upgrades.Upgrades;
 import appeng.core.definitions.AEItems;
@@ -26,6 +27,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 
 import com.mojang.logging.LogUtils;
@@ -75,6 +77,7 @@ public class BiggerAE2Mod {
         modEventBus.addListener(BiggerAE2Mod::initUpgrades);
         modEventBus.addListener(BiggerAE2Mod::initStorageCells);
         modEventBus.addListener(BiggerAE2Mod::packSetup);
+        modEventBus.addListener(BiggerAE2Mod::registerCapabilities);
 
         BiggerAE2Datagen.init();
     }
@@ -94,6 +97,13 @@ public class BiggerAE2Mod {
 
     private static void initStorageCells(FMLCommonSetupEvent event) {
         StorageCells.addCellHandler(DigitalSingularityCellItem.HANDLER);
+    }
+
+    private static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+                AECapabilities.IN_WORLD_GRID_NODE_HOST,
+                ModBlockEntities.CRAFTING_ACCELERATOR.get(),
+                ((o, unused) -> o));
     }
 
     private static void packSetup(AddPackFindersEvent event) {
