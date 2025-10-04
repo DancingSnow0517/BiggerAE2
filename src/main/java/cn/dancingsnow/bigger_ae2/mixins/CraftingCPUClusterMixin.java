@@ -11,7 +11,8 @@ public class CraftingCPUClusterMixin {
     @ModifyConstant(
         method = "addBlockEntity",
         remap = false,
-        constant = @Constant(intValue = 16)
+        constant = @Constant(intValue = 16),
+        require = 0
     )
     private int modifyLimit(int constant) {
         return 1024;
