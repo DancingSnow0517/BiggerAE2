@@ -2,15 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "bigger_ae2:digital_singularity_cell_component"
-    },
-    {
-      "item": "bigger_ae2:advanced_fluid_cell_housing"
-    }
+    "bigger_ae2:digital_singularity_cell_component",
+    "bigger_ae2:advanced_fluid_cell_housing"
   ],
   "result": {
-    "count": 1,
     "id": "bigger_ae2:digital_singularity_fluid_storage_cell"
   }
 }

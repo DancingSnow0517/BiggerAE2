@@ -1,7 +1,5 @@
 package cn.dancingsnow.bigger_ae2.item.cell;
 
-import cn.dancingsnow.bigger_ae2.util.NumberUtil;
-
 import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AEKeyType;
@@ -17,29 +15,32 @@ import appeng.core.localization.PlayerMessages;
 import appeng.items.AEBaseItem;
 import appeng.items.contents.CellConfig;
 import appeng.items.storage.StorageCellTooltipComponent;
+import appeng.recipes.game.StorageCellDisassemblyRecipe;
 import appeng.util.ConfigInventory;
 import appeng.util.InteractionUtil;
-
+import cn.dancingsnow.bigger_ae2.util.NumberUtil;
+import lombok.Getter;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 @Getter
 public class DigitalSingularityCellItem extends AEBaseItem implements ICellWorkbenchItem {
@@ -50,7 +51,7 @@ public class DigitalSingularityCellItem extends AEBaseItem implements ICellWorkb
     private final ItemLike housingItem;
 
     public DigitalSingularityCellItem(
-            Properties properties, AEKeyType keyType, ItemLike coreItem, ItemLike housingItem) {
+        Properties properties, AEKeyType keyType, ItemLike coreItem, ItemLike housingItem) {
         super(properties.stacksTo(1));
         this.keyType = keyType;
         this.coreItem = coreItem;
@@ -73,28 +74,33 @@ public class DigitalSingularityCellItem extends AEBaseItem implements ICellWorkb
     }
 
     @Override
-    public void setFuzzyMode(ItemStack is, FuzzyMode fzMode) {}
+    public void setFuzzyMode(ItemStack is, FuzzyMode fzMode) {
+    }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void appendHoverText(
-            ItemStack stack, TooltipContext context, List<Component> lines, TooltipFlag flag) {
+        @NonNull ItemStack stack,
+        @NonNull TooltipContext context,
+        @NonNull TooltipDisplay tooltipDisplay,
+        @NonNull Consumer<Component> lines,
+        @NonNull TooltipFlag tooltipFlags
+    ) {
         @Nullable DigitalSingularityStorageCell inv = HANDLER.getCellInventory(stack, null);
         if (inv != null) {
             AEKey storedItem = inv.getStoredItem();
             AEKey filterItem = inv.getFilterItem();
 
             if (storedItem != null) {
-                lines.add(
-                        Component.translatable("tooltip.bigger_ae2.contains", storedItem.getDisplayName()));
-                lines.add(Component.translatable(
-                        "tooltip.bigger_ae2.quantity", NumberUtil.numberText(inv.getCount())));
+                lines.accept(Component.translatable("tooltip.bigger_ae2.contains", storedItem.getDisplayName()));
+                lines.accept(Component.translatable(
+                    "tooltip.bigger_ae2.quantity", NumberUtil.numberText(inv.getCount())));
             } else {
-                lines.add(Component.translatable("tooltip.bigger_ae2.empty"));
+                lines.accept(Component.translatable("tooltip.bigger_ae2.empty"));
             }
             if (filterItem != null) {
                 if (storedItem == null) {
-                    lines.add(Component.translatable(
-                            "tooltip.bigger_ae2.partitioned", filterItem.getDisplayName()));
+                    lines.accept(Component.translatable("tooltip.bigger_ae2.partitioned", filterItem.getDisplayName()));
                 }
             }
         }
@@ -120,44 +126,55 @@ public class DigitalSingularityCellItem extends AEBaseItem implements ICellWorkb
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(
-            Level level, Player player, InteractionHand usedHand) {
-        this.disassembleDrive(player.getItemInHand(usedHand), level, player);
-        return new InteractionResultHolder<>(
-                InteractionResult.sidedSuccess(level.isClientSide()), player.getItemInHand(usedHand));
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+        if (level instanceof ServerLevel serverLevel) {
+            this.disassembleDrive(player.getItemInHand(hand), serverLevel, player);
+        }
+        return InteractionResult.SUCCESS;
     }
 
-    private boolean disassembleDrive(ItemStack stack, Level level, Player player) {
-        if (InteractionUtil.isInAlternateUseMode(player)) {
-            if (level.isClientSide()) {
-                return false;
-            }
-
-            final Inventory playerInventory = player.getInventory();
-            var inv = StorageCells.getCellInventory(stack, null);
-            if (inv != null && playerInventory.getSelected() == stack) {
-                var list = inv.getAvailableStacks();
-                if (list.isEmpty()) {
-                    playerInventory.setItem(playerInventory.selected, ItemStack.EMPTY);
-
-                    // drop core
-                    playerInventory.placeItemBackInInventory(new ItemStack(coreItem));
-
-                    // drop upgrades
-                    for (var upgrade : this.getUpgrades(stack)) {
-                        playerInventory.placeItemBackInInventory(upgrade);
-                    }
-
-                    // drop empty storage cell case
-                    playerInventory.placeItemBackInInventory(new ItemStack(housingItem));
-
-                    return true;
-                } else {
-                    player.displayClientMessage(PlayerMessages.OnlyEmptyCellsCanBeDisassembled.text(), true);
-                }
-            }
+    @Override
+    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+        if (context.getLevel() instanceof ServerLevel serverLevel
+            && this.disassembleDrive(stack, serverLevel, context.getPlayer())) {
+            return InteractionResult.SUCCESS;
         }
-        return false;
+        return InteractionResult.PASS;
+    }
+
+
+    private boolean disassembleDrive(ItemStack stack, ServerLevel level, Player player) {
+        if (!InteractionUtil.isInAlternateUseMode(player)) {
+            return false;
+        }
+
+        var disassembledStacks = StorageCellDisassemblyRecipe.getDisassemblyResult(level, stack.getItem());
+        if (disassembledStacks.isEmpty()) {
+            return false;
+        }
+
+        var playerInventory = player.getInventory();
+        if (playerInventory.getSelectedItem() != stack) {
+            return false;
+        }
+
+        var inv = StorageCells.getCellInventory(stack, null);
+        if (inv != null && !inv.getAvailableStacks().isEmpty()) {
+            player.sendOverlayMessage(PlayerMessages.OnlyEmptyCellsCanBeDisassembled.text());
+            return false;
+        }
+
+        playerInventory.setItem(playerInventory.getSelectedSlot(), ItemStack.EMPTY);
+
+        // Drop items from the recipe.
+        for (var disassembledStack : disassembledStacks) {
+            playerInventory.placeItemBackInInventory(disassembledStack.copy());
+        }
+
+        // Drop upgrades
+        getUpgrades(stack).forEach(playerInventory::placeItemBackInInventory);
+
+        return true;
     }
 
     public static class Handler implements ICellHandler {
@@ -168,7 +185,7 @@ public class DigitalSingularityCellItem extends AEBaseItem implements ICellWorkb
 
         @Override
         public @Nullable DigitalSingularityStorageCell getCellInventory(
-                ItemStack is, @Nullable ISaveProvider host) {
+            ItemStack is, @Nullable ISaveProvider host) {
             return isCell(is) ? new DigitalSingularityStorageCell(is, host) : null;
         }
     }

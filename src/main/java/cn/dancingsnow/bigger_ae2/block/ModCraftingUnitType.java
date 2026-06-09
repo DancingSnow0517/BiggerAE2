@@ -5,17 +5,23 @@ import cn.dancingsnow.bigger_ae2.init.ModBlocks;
 import appeng.block.crafting.CraftingUnitBlock;
 import appeng.block.crafting.ICraftingUnitType;
 
+import com.mojang.serialization.Codec;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
 import lombok.Getter;
+import org.jspecify.annotations.NonNull;
 
-public enum ModCraftingUnitType implements ICraftingUnitType {
+public enum ModCraftingUnitType implements ICraftingUnitType, StringRepresentable {
     ACCELERATOR_4(4, "4_core_crafting_accelerator"),
     ACCELERATOR_16(16, "16_core_crafting_accelerator"),
     ACCELERATOR_64(64, "64_core_crafting_accelerator"),
     ACCELERATOR_256(256, "256_core_crafting_accelerator"),
     ACCELERATOR_1024(1024, "1024_core_crafting_accelerator");
+
+    public static final Codec<ModCraftingUnitType> CODEC = StringRepresentable.fromValues(ModCraftingUnitType::values);
+
 
     private final int accelerator;
 
@@ -56,5 +62,10 @@ public enum ModCraftingUnitType implements ICraftingUnitType {
             case ACCELERATOR_256 -> ModBlocks.ACCELERATOR_256;
             case ACCELERATOR_1024 -> ModBlocks.ACCELERATOR_1024;
         };
+    }
+
+    @Override
+    public @NonNull String getSerializedName() {
+        return affix;
     }
 }

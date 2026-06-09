@@ -3,11 +3,9 @@
   "cell": "bigger_ae2:quantum_fluid_storage_cell",
   "cell_disassembly_items": [
     {
-      "count": 1,
       "id": "bigger_ae2:quantum_cell_component"
     },
     {
-      "count": 1,
       "id": "bigger_ae2:advanced_fluid_cell_housing"
     }
   ]

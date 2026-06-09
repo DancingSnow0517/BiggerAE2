@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "ae2:sky_dust"
-    },
-    "B": {
-      "item": "ae2:engineering_processor"
-    },
-    "C": {
-      "item": "bigger_ae2:quantum_cell_component"
-    },
-    "D": {
-      "item": "ae2:quartz_block"
-    }
+    "A": "ae2:sky_dust",
+    "B": "ae2:engineering_processor",
+    "C": "bigger_ae2:quantum_cell_component",
+    "D": "ae2:quartz_block"
   },
   "pattern": [
     "ABA",
@@ -21,7 +13,6 @@
     "ACA"
   ],
   "result": {
-    "count": 1,
     "id": "bigger_ae2:digital_singularity_cell_component"
   }
 }

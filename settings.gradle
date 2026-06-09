@@ -1,88 +1,9 @@
 pluginManagement {
     repositories {
-        mavenLocal()
         gradlePluginPortal()
-        maven { url = 'https://maven.neoforged.net/releases' }
-        maven { url = "https://maven.quiltmc.org/repository/release" }
     }
 }
 
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
-
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-    }
-    versionCatalogs {
-        // Minecraft Version
-        def minecraftVersion = "1.21.1"
-
-        // Mod Dependencies Versions
-        // Common
-        def jeiVersion = "19.27.0.340"
-        def reiVersion = "16.0.744"
-        def ae2Version = "19.0.8-alpha"
-
-        // NeoForge
-        def neoForgeVersion = "21.1.218"
-        def registrateForgeVersion = "MC1.21-1.3.0+67"
-        def jadeForgeVersion = "15.3.4+neoforge"
-        def topForgeVersion = "1.20.4_neo-11.0.0-1"
-
-        // Libs
-        def parchmentVersion = "2024.11.17" // https://parchmentmc.org/docs/getting-started
-        def shadowVersion = "7.1.2"
-        def macheteVersion = "1.+"
-        def spotlessVersion = "7.0.0.BETA1"
-        def modDevGradleVersion = "2.0.78"
-
-        forge {
-            version("forgeShortVersion", neoForgeVersion)
-            def neoForge = version("neoForge", "${neoForgeVersion}")
-            library("neoForge", "net.neoforged", "neoforge").versionRef(neoForge)
-
-            def registrate = version("registrate", registrateForgeVersion)
-            library("registrate", "com.tterrag.registrate", "Registrate").versionRef(registrate)
-
-            def jei = version("jei", jeiVersion)
-            library("jei-common-api", "mezz.jei", "jei-${minecraftVersion}-common-api").versionRef(jei)
-            library("jei-forge-api", "mezz.jei", "jei-${minecraftVersion}-neoforge-api").versionRef(jei)
-            library("jei-forge-impl", "mezz.jei", "jei-${minecraftVersion}-neoforge").versionRef(jei)
-
-            def rei = version("rei", reiVersion)
-            library("rei-plugin", "me.shedaniel", "RoughlyEnoughItems-default-plugin-neoforge").versionRef(rei)
-            library("rei-api", "me.shedaniel", "RoughlyEnoughItems-api-neoforge").versionRef(rei)
-            library("rei-forge", "me.shedaniel", "RoughlyEnoughItems-neoforge").versionRef(rei)
-
-            def jade = version("jade", jadeForgeVersion)
-            library("jade","maven.modrinth", "jade").versionRef(jade)
-
-            def theoneprobe = version("theoneprobe", topForgeVersion)
-            library("theoneprobe", "mcjty.theoneprobe", "theoneprobe").versionRef(theoneprobe)
-
-            def ae2 = version("ae2", ae2Version)
-            library("ae2", "appeng", "appliedenergistics2-neoforge").versionRef(ae2)
-        }
-
-        libs {
-            version("parchment", parchmentVersion)
-            version("minecraft", minecraftVersion)
-
-            def modDevGradle = version("modDevGradle", modDevGradleVersion)
-            plugin("modDevGradle", "net.neoforged.moddev").versionRef(modDevGradle)
-
-            def shadow = version("shadow", shadowVersion)
-            plugin("shadow", "com.github.johnrengelman.shadow").versionRef(shadow)
-
-            def machete = version("machete", macheteVersion)
-            plugin("machete", "io.github.p03w.machete").versionRef(machete)
-
-            def spotless = version("spotless", spotlessVersion)
-            plugin("spotless", "com.diffplug.spotless").versionRef(spotless)
-        }
-    }
-}
-
-rootProject.name = "${mod_id}"

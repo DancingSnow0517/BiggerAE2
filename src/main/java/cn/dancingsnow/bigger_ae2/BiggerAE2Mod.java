@@ -6,10 +6,6 @@ import cn.dancingsnow.bigger_ae2.init.ModBlocks;
 import cn.dancingsnow.bigger_ae2.init.ModComponents;
 import cn.dancingsnow.bigger_ae2.init.ModCreativeTab;
 import cn.dancingsnow.bigger_ae2.init.ModItems;
-import cn.dancingsnow.bigger_ae2.integration.appliedexperienced.AppliedExperiencedItems;
-import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
-import cn.dancingsnow.bigger_ae2.integration.appliedmekanistics.AppliedMekanisticsItems;
-import cn.dancingsnow.bigger_ae2.integration.arsenergistique.ArsEnergistiqueItems;
 import cn.dancingsnow.bigger_ae2.item.cell.DigitalSingularityCellItem;
 
 import appeng.api.AECapabilities;
@@ -19,12 +15,11 @@ import appeng.core.definitions.AEItems;
 import appeng.core.localization.GuiText;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -50,29 +45,29 @@ public class BiggerAE2Mod {
         ModBlockEntities.register();
         ModComponents.register(modEventBus);
 
-        if (ModList.get().isLoaded("appflux")) {
-            AppliedFluxItems.register();
-        } else {
-            BiggerAE2Mod.LOGGER.debug("Applied Flux not installed, passed");
-        }
-
-        if (ModList.get().isLoaded("appmek")) {
-            AppliedMekanisticsItems.register();
-        } else {
-            BiggerAE2Mod.LOGGER.debug("Applied Mekanistics not installed, passed");
-        }
-
-        if (ModList.get().isLoaded("arseng")) {
-            ArsEnergistiqueItems.register();
-        } else {
-            BiggerAE2Mod.LOGGER.debug("Ars ArsEnergistique not installed, passed");
-        }
-
-        if (ModList.get().isLoaded("appex")) {
-            AppliedExperiencedItems.register();
-        } else {
-            BiggerAE2Mod.LOGGER.debug("Applied Experienced not installed, passed");
-        }
+//        if (ModList.get().isLoaded("appflux")) {
+//            AppliedFluxItems.register();
+//        } else {
+//            BiggerAE2Mod.LOGGER.debug("Applied Flux not installed, passed");
+//        }
+//
+//        if (ModList.get().isLoaded("appmek")) {
+//            AppliedMekanisticsItems.register();
+//        } else {
+//            BiggerAE2Mod.LOGGER.debug("Applied Mekanistics not installed, passed");
+//        }
+//
+//        if (ModList.get().isLoaded("arseng")) {
+//            ArsEnergistiqueItems.register();
+//        } else {
+//            BiggerAE2Mod.LOGGER.debug("Ars ArsEnergistique not installed, passed");
+//        }
+//
+//        if (ModList.get().isLoaded("appex")) {
+//            AppliedExperiencedItems.register();
+//        } else {
+//            BiggerAE2Mod.LOGGER.debug("Applied Experienced not installed, passed");
+//        }
 
         modEventBus.addListener(BiggerAE2Mod::initUpgrades);
         modEventBus.addListener(BiggerAE2Mod::initStorageCells);
@@ -82,8 +77,8 @@ public class BiggerAE2Mod {
         BiggerAE2Datagen.init();
     }
 
-    public static ResourceLocation of(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    public static Identifier of(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 
     private static void initUpgrades(FMLCommonSetupEvent event) {

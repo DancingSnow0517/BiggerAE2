@@ -4,13 +4,9 @@ on:
     paths:
       - .github/workflows/**
       - src/**
-      - gradle/scripts/**
       - build.gradle
       - gradle.properties
       - settings.gradle
-    branches:
-      - master
-      - "1.21"
 
 jobs:
   build:
@@ -22,11 +18,11 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: Setup Java 21
+      - name: Setup Java 25
         uses: actions/setup-java@v4.2.1
         with:
           distribution: zulu
-          java-version: 21
+          java-version: 25
 
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
@@ -75,6 +71,3 @@ jobs:
           github-prerelease: true
 
           files: build/libs/${{ steps.properties.outputs.mod_id }}-${{ steps.var.outputs.version }}.jar
-
-  # gametest:
-  #   uses: ./.github/workflows/gametest.yml

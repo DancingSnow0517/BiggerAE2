@@ -1,5 +1,0 @@
-java {
-    withSourcesJar()
-}
-
-archivesBaseName = "${project.name}-${libs.versions.minecraft.get()}"

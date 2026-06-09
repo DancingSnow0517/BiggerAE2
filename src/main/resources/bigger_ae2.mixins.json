@@ -1,11 +1,9 @@
 {
   "required": true,
   "package": "cn.dancingsnow.bigger_ae2.mixins",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "minVersion": "0.8",
   "client": [
-    "client.BuiltInModelHooksAccessor",
-    "client.ModelBakeryMixin"
   ],
   "mixins": [
     "CraftingCPUClusterMixin"

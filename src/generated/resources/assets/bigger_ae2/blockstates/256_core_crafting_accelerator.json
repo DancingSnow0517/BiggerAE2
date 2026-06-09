@@ -4,7 +4,8 @@
       "model": "bigger_ae2:block/crafting/256_core_crafting_accelerator"
     },
     "formed=true": {
-      "model": "bigger_ae2:block/crafting/256_core_crafting_accelerator_formed"
+      "type": "bigger_ae2:crafting_cube",
+      "unit_type": "256_core_crafting_accelerator"
     }
   }
 }
