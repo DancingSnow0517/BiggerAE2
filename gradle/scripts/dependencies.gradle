@@ -20,12 +20,14 @@ dependencies {
     compileOnlyApi(forge.theoneprobe) { transitive = false }
 
     // ae2
-    implementation("curse.maven:guideme-1173950:6179772")
-    implementation("curse.maven:applied-energistics-2-223794:6193778")
+    compileOnly("org.appliedenergistics:guideme:21.1.1:api")
+    runtimeOnly("org.appliedenergistics:guideme:21.1.1")
+
+    implementation("org.appliedenergistics:appliedenergistics2:19.2.17")
 
     // applied flux
     implementation("curse.maven:glodium-957920:5821676")
-    implementation("curse.maven:applied-flux-965012:5946853")
+    implementation("curse.maven:applied-flux-965012:8204513")
 
     // applied mekanistics
     implementation("curse.maven:mekanism-268560:6018306")

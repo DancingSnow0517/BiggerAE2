@@ -21,12 +21,12 @@ dependencyResolutionManagement {
 
         // Mod Dependencies Versions
         // Common
-        def jeiVersion = "19.17.0.193"
+        def jeiVersion = "19.27.0.340"
         def reiVersion = "16.0.744"
         def ae2Version = "19.0.8-alpha"
 
         // NeoForge
-        def neoForgeVersion = "21.1.172"
+        def neoForgeVersion = "21.1.218"
         def registrateForgeVersion = "MC1.21-1.3.0+67"
         def jadeForgeVersion = "15.3.4+neoforge"
         def topForgeVersion = "1.20.4_neo-11.0.0-1"
