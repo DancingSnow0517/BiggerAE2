@@ -7,7 +7,6 @@ import cn.dancingsnow.bigger_ae2.client.model.UnbakedCraftingUnitModel;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.generators.RegistrateBlockModelGenerator;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.client.data.models.BlockModelGenerators;
@@ -24,8 +23,8 @@ import net.neoforged.neoforge.client.model.generators.blockstate.CustomBlockStat
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ModelUtil {
-    public static <B extends Block> NonNullSupplier<NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockModelGenerator>> craftingUnitModel(ModCraftingUnitType type) {
-        return () -> (ctx, prov) -> {
+    public static <B extends Block> NonNullBiConsumer<DataGenContext<Block, B>, RegistrateBlockModelGenerator> craftingUnitModel(ModCraftingUnitType type) {
+        return (ctx, prov) -> {
             Identifier unformedModel = ModelTemplates.CUBE_ALL.create(
                 prov.modLoc("block/crafting/"+ctx.getName()),
                 TextureMapping.cube(makeMaterial("block/crafting/" + ctx.getName())),

@@ -15,7 +15,7 @@ public class ModBlocks {
 
     public static final BlockEntry<CraftingUnitBlock> ACCELERATOR_4 = REGISTRATE
         .block("4_core_crafting_accelerator", p -> new CraftingUnitBlock(p, ModCraftingUnitType.ACCELERATOR_4))
-        .blockstate(ModelUtil.craftingUnitModel(ModCraftingUnitType.ACCELERATOR_4))
+        .blockstate(() -> ModelUtil.craftingUnitModel(ModCraftingUnitType.ACCELERATOR_4))
         .recipe((ctx, provider) -> {
             ShapelessRecipeBuilder.shapeless(provider.itemLookup(), RecipeCategory.MISC, ctx.get())
                 .requires(AEBlocks.CRAFTING_ACCELERATOR)
@@ -31,7 +31,7 @@ public class ModBlocks {
 
     public static final BlockEntry<CraftingUnitBlock> ACCELERATOR_16 = REGISTRATE
         .block("16_core_crafting_accelerator", p -> new CraftingUnitBlock(p, ModCraftingUnitType.ACCELERATOR_16))
-        .blockstate(ModelUtil.craftingUnitModel(ModCraftingUnitType.ACCELERATOR_16))
+        .blockstate(() -> ModelUtil.craftingUnitModel(ModCraftingUnitType.ACCELERATOR_16))
         .recipe((ctx, provider) -> {
             ShapelessRecipeBuilder.shapeless(provider.itemLookup(), RecipeCategory.MISC, ctx.get())
                 .requires(ACCELERATOR_4)
@@ -47,7 +47,7 @@ public class ModBlocks {
 
     public static final BlockEntry<CraftingUnitBlock> ACCELERATOR_64 = REGISTRATE
         .block("64_core_crafting_accelerator", p -> new CraftingUnitBlock(p, ModCraftingUnitType.ACCELERATOR_64))
-        .blockstate(ModelUtil.craftingUnitModel(ModCraftingUnitType.ACCELERATOR_64))
+        .blockstate(() -> ModelUtil.craftingUnitModel(ModCraftingUnitType.ACCELERATOR_64))
         .recipe((ctx, provider) -> {
             ShapelessRecipeBuilder.shapeless(provider.itemLookup(), RecipeCategory.MISC, ctx.get())
                 .requires(ACCELERATOR_16)
@@ -63,7 +63,7 @@ public class ModBlocks {
 
     public static final BlockEntry<CraftingUnitBlock> ACCELERATOR_256 = REGISTRATE
         .block("256_core_crafting_accelerator", p -> new CraftingUnitBlock(p, ModCraftingUnitType.ACCELERATOR_256))
-        .blockstate(ModelUtil.craftingUnitModel(ModCraftingUnitType.ACCELERATOR_256))
+        .blockstate(() -> ModelUtil.craftingUnitModel(ModCraftingUnitType.ACCELERATOR_256))
         .recipe((ctx, provider) -> {
             ShapelessRecipeBuilder.shapeless(provider.itemLookup(), RecipeCategory.MISC, ctx.get())
                 .requires(ACCELERATOR_64)
@@ -79,7 +79,7 @@ public class ModBlocks {
 
     public static final BlockEntry<CraftingUnitBlock> ACCELERATOR_1024 = REGISTRATE
         .block("1024_core_crafting_accelerator", p -> new CraftingUnitBlock(p, ModCraftingUnitType.ACCELERATOR_1024))
-        .blockstate(ModelUtil.craftingUnitModel(ModCraftingUnitType.ACCELERATOR_1024))
+        .blockstate(() -> ModelUtil.craftingUnitModel(ModCraftingUnitType.ACCELERATOR_1024))
         .recipe((ctx, provider) -> {
             ShapelessRecipeBuilder.shapeless(provider.itemLookup(), RecipeCategory.MISC, ctx.get())
                 .requires(ACCELERATOR_256)
