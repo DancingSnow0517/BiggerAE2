@@ -9,7 +9,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public class NumberUtil {
-    private static final String[] UNITS = {"", "K", "M", "G", "T", "P", "E", "Y", "Z", "R", "Q"};
+    private static final String[] UNITS = {"", "K", "M", "G", "T", "P", "E", "Z", "Y", "R", "Q"};
 
     private static final Style NUMBER = Style.EMPTY.withColor(0x886EFF);
     private static final Style UNIT = Style.EMPTY.withColor(0xEE82EE);
