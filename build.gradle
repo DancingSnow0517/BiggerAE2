@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'net.neoforged.moddev' version '2.0.141'
+    id 'me.champeau.jmh' version '0.7.2'
     id 'idea'
 }
 
@@ -190,6 +191,28 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+def jmhQuick = project.hasProperty('jmhQuick')
+
+jmh {
+    warmupIterations = jmhQuick ? 1 : 5
+    iterations = jmhQuick ? 1 : 5
+    fork = jmhQuick ? 1 : 2
+    warmup = jmhQuick ? '200ms' : '2s'
+    timeOnIteration = jmhQuick ? '300ms' : '2s'
+    resultFormat = 'JSON'
+    profilers = ['gc']
+    failOnError = true
+}
+
+tasks.named('jmhJar') {
+    zip64 = true
+    notCompatibleWithConfigurationCache('JMH plugin is not compatible with configuration cache')
+}
+
+tasks.named('jmh') {
+    notCompatibleWithConfigurationCache('JMH plugin is not compatible with configuration cache')
 }
 
 // IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
