@@ -3,6 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
+    id 'me.champeau.jmh' version '0.7.2'
     alias libs.plugins.modDevGradle
     alias libs.plugins.machete
     alias libs.plugins.spotless
@@ -44,6 +45,23 @@ machete {
 }
 
 tasks.build.dependsOn(tasks.spotlessCheck)
+
+def jmhQuick = project.hasProperty('jmhQuick')
+
+jmh {
+    warmupIterations = jmhQuick ? 1 : 5
+    iterations = jmhQuick ? 1 : 5
+    fork = jmhQuick ? 1 : 2
+    warmup = jmhQuick ? '200ms' : '2s'
+    timeOnIteration = jmhQuick ? '300ms' : '2s'
+    resultFormat = 'JSON'
+    profilers = ['gc']
+    failOnError = true
+}
+
+tasks.named('jmhJar') {
+    zip64 = true
+}
 
 // IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
 idea {

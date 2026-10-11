@@ -1,6 +1,7 @@
 package cn.dancingsnow.bigger_ae2.item.cell;
 
 import cn.dancingsnow.bigger_ae2.init.ModComponents;
+import cn.dancingsnow.bigger_ae2.util.UnsignedLongArray;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
@@ -16,8 +17,6 @@ import net.minecraft.world.item.ItemStack;
 
 import lombok.Getter;
 
-import java.math.BigInteger;
-
 public class DigitalSingularityStorageCell implements StorageCell {
     private final ItemStack stack;
     private final ISaveProvider container;
@@ -31,7 +30,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
     private final AEKey filterItem;
 
     @Getter
-    private BigInteger count;
+    private UnsignedLongArray count;
 
     private boolean isPersisted = true;
 
@@ -46,7 +45,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
         filterItem = cell.getConfigInventory(stack).getKey(0);
         type = cell.getKeyType();
 
-        count = storage != null ? storage.getCount() : BigInteger.ZERO;
+        count = storage != null ? storage.getCount() : UnsignedLongArray.ZERO;
     }
 
     @Override
@@ -54,7 +53,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
         if (filterItem != null) {
             return CellState.TYPES_FULL;
         }
-        if (storedItem == null || count.signum() < 1) {
+        if (storedItem == null || count.isZero()) {
             return CellState.EMPTY;
         }
         return CellState.TYPES_FULL;
@@ -70,7 +69,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
         if (isPersisted) {
             return;
         }
-        if (storedItem == null || count.signum() < 1) {
+        if (storedItem == null || count.isZero()) {
             stack.remove(ModComponents.SINGULARITY_STORAGE);
         } else {
             var storage = new DigitalSingularityStorage(storedItem, count);
@@ -87,7 +86,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
     @Override
     public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
-        if (amount == 0) {
+        if (amount <= 0) {
             return 0;
         }
         if (what.getType() != type) {
@@ -100,12 +99,11 @@ public class DigitalSingularityStorageCell implements StorageCell {
             return 0;
         }
 
-        BigInteger insertAmount = BigInteger.valueOf(amount);
         if (mode == Actionable.MODULATE) {
             if (storedItem == null) {
                 storedItem = what;
             }
-            count = count.add(insertAmount);
+            count = count.add(amount);
             saveChanges();
             return amount;
         }
@@ -114,7 +112,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
     @Override
     public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
-        if (count.signum() < 1) {
+        if (amount <= 0 || count.isZero()) {
             return 0;
         }
         if (storedItem == null) {
@@ -124,29 +122,28 @@ public class DigitalSingularityStorageCell implements StorageCell {
             return 0;
         }
 
-        BigInteger extractAmount = BigInteger.valueOf(amount);
-        BigInteger currentCount = count;
-        if (currentCount.compareTo(extractAmount) <= 0) {
+        if (count.compareTo(amount) <= 0) {
+            long extracted = clampedLong(count);
             if (mode == Actionable.MODULATE) {
                 storedItem = null;
-                count = BigInteger.ZERO;
+                count = UnsignedLongArray.ZERO;
                 saveChanges();
             }
 
-            return clampedLong(currentCount, Long.MAX_VALUE);
+            return extracted;
         } else {
             if (mode == Actionable.MODULATE) {
-                count = count.subtract(extractAmount);
+                count = count.subtract(amount);
                 saveChanges();
             }
-            return clampedLong(extractAmount, Long.MAX_VALUE);
+            return amount;
         }
     }
 
     @Override
     public void getAvailableStacks(KeyCounter out) {
         if (storedItem != null) {
-            out.add(storedItem, clampedLong(count, Long.MAX_VALUE));
+            out.add(storedItem, clampedLong(count));
         }
     }
 
@@ -157,7 +154,7 @@ public class DigitalSingularityStorageCell implements StorageCell {
 
     @Override
     public boolean canFitInsideCell() {
-        return filterItem == null && storedItem == null && count.signum() < 1;
+        return filterItem == null && storedItem == null && count.isZero();
     }
 
     private void saveChanges() {
@@ -169,11 +166,11 @@ public class DigitalSingularityStorageCell implements StorageCell {
         }
     }
 
-    private long clampedLong(BigInteger toClamp, long limit) {
-        return toClamp.min(BigInteger.valueOf(limit)).longValue();
+    private long clampedLong(UnsignedLongArray toClamp) {
+        return toClamp.toLongSaturated();
     }
 
     public long getStoredQuantity() {
-        return clampedLong(count, Long.MAX_VALUE);
+        return clampedLong(count);
     }
 }

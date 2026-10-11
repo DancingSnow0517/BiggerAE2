@@ -1,37 +1,33 @@
 package cn.dancingsnow.bigger_ae2.item.cell;
 
+import cn.dancingsnow.bigger_ae2.util.UnsignedLongArray;
+
 import appeng.api.stacks.AEKey;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
 public class DigitalSingularityStorage {
+    private static final Codec<UnsignedLongArray> COUNT_CODEC = Codec.either(
+                    Codec.STRING, Codec.LONG.listOf())
+            .flatXmap(DigitalSingularityStorage::decodeCount, DigitalSingularityStorage::encodeCount);
+
     public static final Codec<DigitalSingularityStorage> CODEC =
             RecordCodecBuilder.create(instance -> instance
                     .group(
                             AEKey.CODEC.fieldOf("key").forGetter(DigitalSingularityStorage::getStoredItem),
-                            Codec.STRING
-                                    .flatXmap(
-                                            it -> {
-                                                try {
-                                                    return DataResult.success(new BigInteger(it));
-                                                } catch (NumberFormatException e) {
-                                                    return DataResult.success(BigInteger.ZERO);
-                                                }
-                                            },
-                                            it -> DataResult.success(it.toString()))
-                                    .fieldOf("count")
-                                    .forGetter(DigitalSingularityStorage::getCount))
+                            COUNT_CODEC.fieldOf("count").forGetter(DigitalSingularityStorage::getCount))
                     .apply(instance, DigitalSingularityStorage::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, DigitalSingularityStorage> STREAM_CODEC =
@@ -39,28 +35,63 @@ public class DigitalSingularityStorage {
 
     @Nullable private final AEKey storedItem;
 
-    private final BigInteger count;
+    private final UnsignedLongArray count;
 
-    public DigitalSingularityStorage(@Nullable AEKey storedItem, BigInteger count) {
+    public DigitalSingularityStorage(@Nullable AEKey storedItem, UnsignedLongArray count) {
         this.storedItem = storedItem;
-        this.count = count;
+        this.count = Objects.requireNonNull(count, "count");
     }
 
     public DigitalSingularityStorage(RegistryFriendlyByteBuf buf) {
         storedItem = AEKey.readOptionalKey(buf);
-        String integerStr = buf.readUtf();
-        BigInteger c;
-        try {
-            c = new BigInteger(integerStr);
-        } catch (NumberFormatException e) {
-            c = BigInteger.ZERO;
+        int limbCount = buf.readVarInt();
+        if (limbCount < 0 || limbCount > UnsignedLongArray.MAX_LIMBS) {
+            throw new IllegalArgumentException("Invalid unsigned integer limb count: " + limbCount);
         }
-        count = c;
+        long[] limbs = new long[limbCount];
+        for (int i = 0; i < limbCount; i++) {
+            limbs[i] = buf.readLong();
+        }
+        count = UnsignedLongArray.fromLimbs(limbs);
     }
 
     public void encode(RegistryFriendlyByteBuf buf) {
         AEKey.writeOptionalKey(buf, storedItem);
-        buf.writeUtf(count.toString());
+        long[] limbs = count.toLongArray();
+        buf.writeVarInt(limbs.length);
+        for (long limb : limbs) {
+            buf.writeLong(limb);
+        }
+    }
+
+    private static DataResult<UnsignedLongArray> decodeCount(Either<String, List<Long>> encoded) {
+        return encoded.map(
+                value -> {
+                    try {
+                        return DataResult.success(UnsignedLongArray.fromDecimal(value));
+                    } catch (NumberFormatException e) {
+                        return DataResult.error(() -> "Invalid unsigned integer: " + value);
+                    }
+                },
+                values -> {
+                    if (values.size() > UnsignedLongArray.MAX_LIMBS) {
+                        return DataResult.error(() -> "Too many unsigned integer limbs: " + values.size());
+                    }
+                    long[] limbs = new long[values.size()];
+                    for (int i = 0; i < values.size(); i++) {
+                        limbs[i] = values.get(i);
+                    }
+                    return DataResult.success(UnsignedLongArray.fromLimbs(limbs));
+                });
+    }
+
+    private static DataResult<Either<String, List<Long>>> encodeCount(UnsignedLongArray value) {
+        long[] limbs = value.toLongArray();
+        List<Long> encoded = new java.util.ArrayList<>(limbs.length);
+        for (long limb : limbs) {
+            encoded.add(limb);
+        }
+        return DataResult.success(Either.right(encoded));
     }
 
     @Override
