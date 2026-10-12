@@ -54,8 +54,8 @@ jobs:
           loaders: forge
           environment: 'client | server'
           files: |
-            build/libs/${{ steps.properties.outputs.mod_id }}-${{ steps.var.outputs.version }}.jar
-            build/libs/${{ steps.properties.outputs.mod_id }}-${{ steps.var.outputs.version }}-sources.jar
+            build/libs/${{ steps.properties.outputs.mod_id }}-1.20.1-${{ steps.var.outputs.version }}.jar
+            build/libs/${{ steps.properties.outputs.mod_id }}-1.20.1-${{ steps.var.outputs.version }}-sources.jar
 
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
