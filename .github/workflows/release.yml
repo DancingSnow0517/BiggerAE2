@@ -61,5 +61,5 @@ jobs:
           environment: 'client | server'
 
           files: |
-            build/libs/${{ steps.properties.outputs.mod_id }}-${{ steps.var.outputs.version }}.jar
-            build/libs/${{ steps.properties.outputs.mod_id }}-${{ steps.var.outputs.version }}-sources.jar
+            build/libs/${{ steps.properties.outputs.mod_id }}-1.21.1-${{ steps.var.outputs.version }}.jar
+            build/libs/${{ steps.properties.outputs.mod_id }}-1.21.1-${{ steps.var.outputs.version }}-sources.jar
