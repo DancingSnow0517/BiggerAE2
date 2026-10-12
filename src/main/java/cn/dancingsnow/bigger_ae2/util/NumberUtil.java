@@ -58,14 +58,7 @@ public class NumberUtil {
             }
         }
 
-        return new StringBuilder(8 + Integer.toString(exponent).length())
-                .append(significant[0])
-                .append('.')
-                .append(significant[1])
-                .append(significant[2])
-                .append("e+")
-                .append(exponent)
-                .toString();
+        return String.valueOf(significant[0]) + '.' + significant[1] + significant[2] + "e+" + exponent;
     }
 
     public static Component numberText(UnsignedLongArray number) {
