@@ -133,35 +133,54 @@ src/jmh/java/cn/dancingsnow/bigger_ae2/benchmark/UnsignedLongArrayBenchmark.java
 build/results/jmh/results.json
 ```
 
-### 快速基准结果
+### 正式基准结果
 
-测试环境：
+正式基准命令：
 
-- JDK 21.0.4
-- OpenJDK 64-Bit Server VM
-- 单线程、单 fork
-- 预热 1 × 200 ms
-- 测量 1 × 300 ms
-- 包含 GC profiler
+```bash
+./gradlew jmh
+```
 
-以下数据来自 `./gradlew jmh -PjmhQuick`，单位为 `ns/op`。快速配置只有一次测量，误差不具备正式统计意义，应使用默认 `./gradlew jmh` 获取稳定结果。
+测试环境和配置：
 
-| 场景 | 数值规模 | UnsignedLongArray | BigInteger |
-| --- | ---: | ---: | ---: |
-| `add(long)` | 1 limb | 2.584 | 5.445 |
-| `add(long)` | 32 limbs | 14.814 | 15.333 |
-| `subtract(long)` | 1 limb | 2.496 | 6.856 |
-| `subtract(long)` | 32 limbs | 14.119 | 17.889 |
-| `add(big number)` | 1 limb | 2.746 | 5.575 |
-| `add(big number)` | 32 limbs | 18.552 | 29.994 |
-| `subtract(big number)` | 1 limb | 2.928 | 7.233 |
-| `subtract(big number)` | 32 limbs | 22.280 | 31.065 |
-| 连续加法链 | 1 limb | 51.908 | 82.011 |
-| 连续加法链 | 32 limbs | 329.890 | 560.982 |
-| 连续减法链 | 1 limb | 58.280 | 96.989 |
-| 连续减法链 | 32 limbs | 496.383 | 592.184 |
+- JMH 1.36
+- JDK 21.0.4 / OpenJDK 64-Bit Server VM
+- 单线程
+- 5 次预热，每次 2 秒
+- 5 次测量，每次 2 秒
+- 2 个 fork
+- GC profiler
+- 共 144 个测试组合：12 个操作 × 4 种 limb 数量 × 3 种模式
 
-在本次快速基准中，`UnsignedLongArray` 在常用的 `long` 增量操作和大数连续更新场景下明显减少了操作耗时；具体收益会随数值规模、进位/借位比例、JDK 和硬件变化。
+完整 JSON 结果位于：
+
+```text
+build/results/jmh/results.json
+```
+
+以下是普通计算模式的正式结果，单位为 `ns/op`：
+
+| 操作 | 1 limb：UnsignedLongArray | 1 limb：BigInteger | 32 limbs：UnsignedLongArray | 32 limbs：BigInteger |
+| --- | ---: | ---: | ---: | ---: |
+| `add(long)` | 2.043 | 4.921 | 12.523 | 14.521 |
+| `subtract(long)` | 1.663 | 6.202 | 12.887 | 13.927 |
+| `add(big number)` | 2.144 | 5.282 | 13.963 | 29.813 |
+| `subtract(big number)` | 2.521 | 6.841 | 20.941 | 30.379 |
+| 连续加法链 | 36.516 | 80.307 | 315.827 | 550.453 |
+| 连续减法链 | 54.735 | 101.615 | 506.365 | 513.243 |
+
+32 limbs 下的进位和借位结果：
+
+| 操作 | 进位：UnsignedLongArray | 进位：BigInteger | 借位：UnsignedLongArray | 借位：BigInteger |
+| --- | ---: | ---: | ---: | ---: |
+| `add(long)` | 33.595 | 37.733 | 11.691 | 13.496 |
+| `subtract(long)` | 12.812 | 15.281 | 13.996 | 22.365 |
+| `add(big number)` | 29.380 | 42.293 | 14.331 | 29.348 |
+| `subtract(big number)` | 21.109 | 30.384 | 34.328 | 42.715 |
+| 连续加法链 | 258.815 | 489.025 | 228.060 | 594.690 |
+| 连续减法链 | 410.141 | 506.125 | 372.051 | 458.087 |
+
+在这次正式基准中，`UnsignedLongArray` 在普通加减、`long` 增量操作和连续更新场景整体优于 `BigInteger`。具体收益会随 limb 数量、进位/借位比例、JDK 和硬件变化。
 
 ## 验证
 
