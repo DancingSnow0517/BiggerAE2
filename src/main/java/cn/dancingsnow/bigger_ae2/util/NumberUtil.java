@@ -58,12 +58,7 @@ public class NumberUtil {
             }
         }
 
-        return String.valueOf(significant[0]) +
-            '.' +
-            significant[1] +
-            significant[2] +
-            "e+" +
-            exponent;
+        return String.valueOf(significant[0]) + '.' + significant[1] + significant[2] + "e+" + exponent;
     }
 
     public static Component numberText(UnsignedLongArray number) {
