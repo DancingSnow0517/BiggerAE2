@@ -1,15 +1,49 @@
 package cn.dancingsnow.bigger_ae2.util;
 
+import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public final class UnsignedLongArray implements Comparable<UnsignedLongArray> {
     public static final int MAX_LIMBS = 1_000_000;
+    public static final UnsignedLongArray ZERO = new UnsignedLongArray(new long[0], true);
+    public static final Codec<UnsignedLongArray> CODEC = Codec
+        .either(Codec.STRING, Codec.LONG.listOf(0, MAX_LIMBS))
+        .flatXmap(
+            encoded -> encoded.map(value -> {
+                    try {
+                        return DataResult.success(UnsignedLongArray.fromDecimal(value));
+                    } catch (NumberFormatException e) {
+                        return DataResult.error(() -> "Invalid unsigned integer: " + value);
+                    } catch (IllegalArgumentException e) {
+                        return DataResult.error(e::getMessage);
+                    }
+                },
+                values -> {
+                    try {
+                        return DataResult.success(UnsignedLongArray.fromLimbs(values));
+                    } catch (IllegalArgumentException e) {
+                        return DataResult.error(e::getMessage);
+                    }
+                }
+            ),
+            value -> DataResult.success(Either.right(value.toLongList()))
+        );
+    public static final StreamCodec<FriendlyByteBuf, UnsignedLongArray> STREAM_CODEC = StreamCodec.composite(
+        ByteBufCodecs.VAR_LONG.apply(ByteBufCodecs.list(MAX_LIMBS)),
+        UnsignedLongArray::toLongList,
+        UnsignedLongArray::fromLimbs
+    );
     private static final long DECIMAL_BASE = 1_000_000_000L;
     private static final long LOW_INT_MASK = 0xFFFF_FFFFL;
-
-    public static final UnsignedLongArray ZERO = new UnsignedLongArray(new long[0], true);
-
     private final long[] limbs;
 
     private UnsignedLongArray(long[] limbs, boolean normalized) {
@@ -23,12 +57,20 @@ public final class UnsignedLongArray implements Comparable<UnsignedLongArray> {
         if (value < 0) {
             throw new IllegalArgumentException("Value must be non-negative: " + value);
         }
-        return value == 0 ? ZERO : new UnsignedLongArray(new long[] {value}, true);
+        return value == 0 ? ZERO : new UnsignedLongArray(new long[]{value}, true);
     }
 
     public static UnsignedLongArray fromLimbs(long[] limbs) {
         Objects.requireNonNull(limbs, "limbs");
         return limbs.length == 0 ? ZERO : new UnsignedLongArray(limbs.clone(), false);
+    }
+
+    public static UnsignedLongArray fromLimbs(List<Long> values) {
+        long[] limbs = new long[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            limbs[i] = values.get(i);
+        }
+        return fromLimbs(limbs);
     }
 
     public static UnsignedLongArray fromDecimal(String value) {
@@ -44,6 +86,44 @@ public final class UnsignedLongArray implements Comparable<UnsignedLongArray> {
         UnsignedLongArray result = fromLong(parseDecimalChunk(value, 0, firstChunkLength));
         for (int offset = firstChunkLength; offset < value.length(); offset += 9) {
             result = result.multiplyAddSmall(DECIMAL_BASE, parseDecimalChunk(value, offset, 9));
+        }
+        return result;
+    }
+
+    private static int parseDecimalChunk(String value, int offset, int length) {
+        int result = 0;
+        int end = offset + length;
+        for (int i = offset; i < end; i++) {
+            char digit = value.charAt(i);
+            if (digit < '0' || digit > '9') {
+                throw new NumberFormatException("Invalid unsigned integer: " + value);
+            }
+            result = result * 10 + digit - '0';
+        }
+        return result;
+    }
+
+    private static long[] normalize(long[] source) {
+        int length = source.length;
+        while (length > 0 && source[length - 1] == 0) {
+            length--;
+        }
+        return length == source.length ? source : Arrays.copyOf(source, length);
+    }
+
+    private static void appendPaddedChunk(StringBuilder result, int chunk) {
+        int divisor = 100_000_000;
+        while (divisor > 0) {
+            result.append((char) ('0' + chunk / divisor));
+            chunk %= divisor;
+            divisor /= 10;
+        }
+    }
+
+    public List<Long> toLongList() {
+        List<Long> result = new ArrayList<>(limbs.length);
+        for (long limb : limbs) {
+            result.add(limb);
         }
         return result;
     }
@@ -73,9 +153,9 @@ public final class UnsignedLongArray implements Comparable<UnsignedLongArray> {
         if (limbs.length == 1) {
             long sum = limbs[0] + value;
             if (Long.compareUnsigned(sum, limbs[0]) < 0) {
-                return new UnsignedLongArray(new long[] {sum, 1}, true);
+                return new UnsignedLongArray(new long[]{sum, 1}, true);
             }
-            return new UnsignedLongArray(new long[] {sum}, true);
+            return new UnsignedLongArray(new long[]{sum}, true);
         }
 
         long[] result = limbs.clone();
@@ -143,7 +223,7 @@ public final class UnsignedLongArray implements Comparable<UnsignedLongArray> {
         }
         if (limbs.length == 1) {
             long difference = limbs[0] - value;
-            return difference == 0 ? ZERO : new UnsignedLongArray(new long[] {difference}, true);
+            return difference == 0 ? ZERO : new UnsignedLongArray(new long[]{difference}, true);
         }
 
         int outputLength = limbs.length;
@@ -157,8 +237,8 @@ public final class UnsignedLongArray implements Comparable<UnsignedLongArray> {
             long right = i == 0 ? value : 0;
             long difference = left - right - borrow;
             boolean borrowOut = borrow == 0
-                    ? Long.compareUnsigned(left, right) < 0
-                    : Long.compareUnsigned(left, right) <= 0;
+                ? Long.compareUnsigned(left, right) < 0
+                : Long.compareUnsigned(left, right) <= 0;
             result[i] = difference;
             borrow = borrowOut ? 1 : 0;
         }
@@ -184,8 +264,8 @@ public final class UnsignedLongArray implements Comparable<UnsignedLongArray> {
             long right = i < other.limbs.length ? other.limbs[i] : 0;
             long difference = left - right - borrow;
             boolean borrowOut = borrow == 0
-                    ? Long.compareUnsigned(left, right) < 0
-                    : Long.compareUnsigned(left, right) <= 0;
+                ? Long.compareUnsigned(left, right) < 0
+                : Long.compareUnsigned(left, right) <= 0;
             result[i] = difference;
             borrow = borrowOut ? 1 : 0;
         }
@@ -253,27 +333,6 @@ public final class UnsignedLongArray implements Comparable<UnsignedLongArray> {
         return Long.compareUnsigned(limbs[0], value) < 0;
     }
 
-    private static int parseDecimalChunk(String value, int offset, int length) {
-        int result = 0;
-        int end = offset + length;
-        for (int i = offset; i < end; i++) {
-            char digit = value.charAt(i);
-            if (digit < '0' || digit > '9') {
-                throw new NumberFormatException("Invalid unsigned integer: " + value);
-            }
-            result = result * 10 + digit - '0';
-        }
-        return result;
-    }
-
-    private static long[] normalize(long[] source) {
-        int length = source.length;
-        while (length > 0 && source[length - 1] == 0) {
-            length--;
-        }
-        return length == source.length ? source : Arrays.copyOf(source, length);
-    }
-
     @Override
     public int compareTo(UnsignedLongArray other) {
         int lengthComparison = Integer.compare(limbs.length, other.limbs.length);
@@ -305,7 +364,7 @@ public final class UnsignedLongArray implements Comparable<UnsignedLongArray> {
     @Override
     public boolean equals(Object obj) {
         return obj == this
-                || obj instanceof UnsignedLongArray other && Arrays.equals(limbs, other.limbs);
+            || obj instanceof UnsignedLongArray other && Arrays.equals(limbs, other.limbs);
     }
 
     @Override
@@ -352,14 +411,5 @@ public final class UnsignedLongArray implements Comparable<UnsignedLongArray> {
             appendPaddedChunk(result, chunks[i]);
         }
         return result.toString();
-    }
-
-    private static void appendPaddedChunk(StringBuilder result, int chunk) {
-        int divisor = 100_000_000;
-        while (divisor > 0) {
-            result.append((char) ('0' + chunk / divisor));
-            chunk %= divisor;
-            divisor /= 10;
-        }
     }
 }

@@ -1,13 +1,12 @@
 package cn.dancingsnow.bigger_ae2.integration.appliedflux.item;
 
-import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
-
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.StorageCells;
 import appeng.api.storage.cells.StorageCell;
 import appeng.core.localization.PlayerMessages;
 import appeng.util.InteractionUtil;
-
+import cn.dancingsnow.bigger_ae2.integration.appliedflux.AppliedFluxItems;
+import com.glodblock.github.appflux.common.items.ItemFECell;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -16,8 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-
-import com.glodblock.github.appflux.common.items.ItemFECell;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -33,10 +30,10 @@ public class AdvancedItemFECell extends ItemFECell {
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(
-            Level level, Player player, InteractionHand hand) {
+        Level level, Player player, InteractionHand hand) {
         this.disassembleDrive(player.getItemInHand(hand), level, player);
         return new InteractionResultHolder<>(
-                InteractionResult.sidedSuccess(level.isClientSide()), player.getItemInHand(hand));
+            InteractionResult.sidedSuccess(level.isClientSide()), player.getItemInHand(hand));
     }
 
     private boolean disassembleDrive(ItemStack stack, Level level, Player player) {
@@ -56,7 +53,7 @@ public class AdvancedItemFECell extends ItemFECell {
                         playerInventory.placeItemBackInInventory(upgrade);
                     }
                     playerInventory.placeItemBackInInventory(
-                            new ItemStack(AppliedFluxItems.ADVANCED_FLUX_CELL_HOUSING.asItem()));
+                        new ItemStack(AppliedFluxItems.ADVANCED_FLUX_CELL_HOUSING.asItem()));
                     return true;
                 }
 

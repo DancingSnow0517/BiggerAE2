@@ -24,7 +24,8 @@ public abstract class ModelBakeryMixin {
         }
     }
 
-    @Unique private UnbakedModel bigger_ae2$getUnbakedModel(ResourceLocation variantId) {
+    @Unique
+    private UnbakedModel bigger_ae2$getUnbakedModel(ResourceLocation variantId) {
         if (!variantId.getNamespace().equals(BiggerAE2Mod.MOD_ID)) {
             return null;
         }

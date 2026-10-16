@@ -1,8 +1,5 @@
 package cn.dancingsnow.bigger_ae2.item.cell;
 
-import cn.dancingsnow.bigger_ae2.init.ModComponents;
-import cn.dancingsnow.bigger_ae2.util.UnsignedLongArray;
-
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
@@ -11,24 +8,21 @@ import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.cells.CellState;
 import appeng.api.storage.cells.ISaveProvider;
 import appeng.api.storage.cells.StorageCell;
-
+import cn.dancingsnow.bigger_ae2.init.ModComponents;
+import cn.dancingsnow.bigger_ae2.util.UnsignedLongArray;
+import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-
-import lombok.Getter;
 
 public class DigitalSingularityStorageCell implements StorageCell {
     private final ItemStack stack;
     private final ISaveProvider container;
 
     private final AEKeyType type;
-
-    @Getter
-    private AEKey storedItem;
-
     @Getter
     private final AEKey filterItem;
-
+    @Getter
+    private AEKey storedItem;
     @Getter
     private UnsignedLongArray count;
 
@@ -41,11 +35,11 @@ public class DigitalSingularityStorageCell implements StorageCell {
         DigitalSingularityCellItem cell = (DigitalSingularityCellItem) stack.getItem();
 
         var storage = stack.get(ModComponents.SINGULARITY_STORAGE);
-        storedItem = storage != null ? storage.getStoredItem() : null;
+        storedItem = storage != null ? storage.storedItem() : null;
         filterItem = cell.getConfigInventory(stack).getKey(0);
         type = cell.getKeyType();
 
-        count = storage != null ? storage.getCount() : UnsignedLongArray.ZERO;
+        count = storage != null ? storage.count() : UnsignedLongArray.ZERO;
     }
 
     @Override

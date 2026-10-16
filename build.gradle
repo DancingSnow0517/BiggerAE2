@@ -6,7 +6,6 @@ plugins {
     id 'me.champeau.jmh' version '0.7.2'
     alias libs.plugins.modDevGradle
     alias libs.plugins.machete
-    alias libs.plugins.spotless
 }
 
 version = mod_version
@@ -24,7 +23,6 @@ apply from: "$rootDir/gradle/scripts/moddevgradle.gradle"
 apply from: "$rootDir/gradle/scripts/publishing.gradle"
 apply from: "$rootDir/gradle/scripts/repositories.gradle"
 apply from: "$rootDir/gradle/scripts/resources.gradle"
-apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
 
 // Formats the mod version to include the loader, Minecraft version, and build number (if present)
@@ -43,8 +41,6 @@ machete {
     // disable machete locally for faster builds
     enabled = false
 }
-
-tasks.build.dependsOn(tasks.spotlessCheck)
 
 def jmhQuick = project.hasProperty('jmhQuick')
 

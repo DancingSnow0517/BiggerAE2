@@ -1,6 +1,9 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "bigger_ae2:item/digital_singularity_chemical_storage_cell"
+    "layer0": "bigger_ae2:item/advanced_chemical_cell_housing",
+    "layer1": "bigger_ae2:item/digital_singularity_storage_cell_light",
+    "layer2": "ae2:item/storage_cell_led",
+    "layer3": "bigger_ae2:item/digital_singularity_storage_cell_layer"
   }
 }

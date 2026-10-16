@@ -1,14 +1,11 @@
 package cn.dancingsnow.bigger_ae2.block;
 
-import cn.dancingsnow.bigger_ae2.init.ModBlocks;
-
 import appeng.block.crafting.CraftingUnitBlock;
 import appeng.block.crafting.ICraftingUnitType;
-
-import net.minecraft.world.item.Item;
-
+import cn.dancingsnow.bigger_ae2.init.ModBlocks;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import lombok.Getter;
+import net.minecraft.world.item.Item;
 
 public enum ModCraftingUnitType implements ICraftingUnitType {
     ACCELERATOR_4(4, "4_core_crafting_accelerator"),

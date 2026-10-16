@@ -65,14 +65,14 @@ public class NumberUtil {
         String text = formatUnsignedLongArray(number);
         if (text.matches(".*[a-zA-Z]$")) {
             return Component.literal(text.substring(0, text.length() - 1))
-                    .withStyle(NUMBER)
-                    .append(Component.literal(text.substring(text.length() - 1)).withStyle(UNIT));
+                .withStyle(NUMBER)
+                .append(Component.literal(text.substring(text.length() - 1)).withStyle(UNIT));
         } else if (text.contains("e+")) {
             String[] split = text.split("e\\+");
             return Component.literal(split[0])
-                    .withStyle(NUMBER)
-                    .append(Component.literal("e+").withStyle(UNIT))
-                    .append(Component.literal(split[1]).withStyle(NUMBER));
+                .withStyle(NUMBER)
+                .append(Component.literal("e+").withStyle(UNIT))
+                .append(Component.literal(split[1]).withStyle(NUMBER));
         }
         return Component.literal(text).withStyle(NUMBER);
     }
