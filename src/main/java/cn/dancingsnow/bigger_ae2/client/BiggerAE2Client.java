@@ -23,7 +23,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
 @Mod(value = BiggerAE2Mod.MOD_ID, dist = Dist.CLIENT)
@@ -91,7 +90,7 @@ public class BiggerAE2Client {
         }
     }
 
-    private static void registerCellModel(ModelEvent.RegisterAdditional event) {
+    private static void registerCellModel(FMLClientSetupEvent event) {
         StorageCellModels.registerModel(ModItems.QUANTUM_ITEM_CELL, BiggerAE2Mod.of("block/drive/cells/quantum_item_cell"));
         StorageCellModels.registerModel(ModItems.QUANTUM_FLUID_CELL, BiggerAE2Mod.of("block/drive/cells/quantum_fluid_cell"));
         StorageCellModels.registerModel(ModItems.SINGULARITY_ITEM_CELL, BiggerAE2Mod.of("block/drive/cells/digital_singularity_item_cell"));
